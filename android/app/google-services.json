@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "39495723329",
+    "project_id": "polyassistant-d250a",
+    "storage_bucket": "polyassistant-d250a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39495723329:android:f351f759dc805d14a159c0",
+        "android_client_info": {
+          "package_name": "com.example.polyassistant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC25t9OVxlhHPmn97b4WykHKIqEbE2RaOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

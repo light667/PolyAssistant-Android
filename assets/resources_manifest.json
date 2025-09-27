@@ -1,0 +1,124 @@
+{
+  "filieres": [
+    {
+      "name": "LF_Génie_Civil",
+      "semestres": [
+        {
+          "name": "Semestre_1",
+          "matieres": [
+            {
+              "name": "TP de mécanique du point",
+              "folder": "assets/resources/LF_Génie_Civil/Semestre_1/TP de mécanique du point",
+              "pdfs": [
+                "RAPPORT DE TRAVAIL Groupe 16.pdf",
+                "RAPPORT TP MECANIQUE Groupe 16.pdf",
+                "TP_Gyros_Plan.pdf",
+                "TP_Intro_Meca.pdf"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LF_Génie_Electrique",
+      "semestres": [
+        {
+          "name": "Semestre_1",
+          "matieres": [
+            {
+              "name": "TP de mécanique du point",
+              "folder": "assets/resources/LF_Génie_Electrique/Semestre_1/TP de mécanique du point",
+              "pdfs": [
+                "RAPPORT DE TRAVAIL Groupe 16.pdf",
+                "RAPPORT TP MECANIQUE Groupe 16.pdf",
+                "TP_Gyros_Plan.pdf",
+                "TP_Intro_Meca.pdf"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LF_Génie_Mécanique",
+      "semestres": [
+        {
+          "name": "Semestre_1",
+          "matieres": [
+            {
+              "name": "TP de mécanique du point",
+              "folder": "assets/resources/LF_Génie_Mécanique/Semestre_1/TP de mécanique du point",
+              "pdfs": [
+                "RAPPORT DE TRAVAIL Groupe 16.pdf",
+                "RAPPORT TP MECANIQUE Groupe 16.pdf",
+                "TP_Gyros_Plan.pdf",
+                "TP_Intro_Meca.pdf"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LF_IA&BigData",
+      "semestres": [
+        {
+          "name": "Semestre_1",
+          "matieres": [
+            {
+              "name": "TP de mécanique du point",
+              "folder": "assets/resources/LF_IA&BigData/Semestre_1/TP de mécanique du point",
+              "pdfs": [
+                "RAPPORT DE TRAVAIL Groupe 16.pdf",
+                "RAPPORT TP MECANIQUE Groupe 16.pdf",
+                "TP_Gyros_Plan.pdf",
+                "TP_Intro_Meca.pdf"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LF_Informatique&Systeme",
+      "semestres": [
+        {
+          "name": "Semestre_1",
+          "matieres": [
+            {
+              "name": "TP de mécanique du point",
+              "folder": "assets/resources/LF_Informatique&Systeme/Semestre_1/TP de mécanique du point",
+              "pdfs": [
+                "RAPPORT DE TRAVAIL Groupe 16.pdf",
+                "RAPPORT TP MECANIQUE Groupe 16.pdf",
+                "TP_Gyros_Plan.pdf",
+                "TP_Intro_Meca.pdf"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LF_Logistique&Transport",
+      "semestres": [
+        {
+          "name": "Semestre_1",
+          "matieres": [
+            {
+              "name": "TP de mécanique du point",
+              "folder": "assets/resources/LF_Logistique&Transport/Semestre_1/TP de mécanique du point",
+              "pdfs": [
+                "RAPPORT DE TRAVAIL Groupe 16.pdf",
+                "RAPPORT TP MECANIQUE Groupe 16.pdf",
+                "TP_Gyros_Plan.pdf",
+                "TP_Intro_Meca.pdf"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
