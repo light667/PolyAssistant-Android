@@ -1,10 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+//import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:convert';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:open_file/open_file.dart';
+//import 'package:path_provider/path_provider.dart';
 
 class ResourcesPage extends StatefulWidget {
   const ResourcesPage({super.key, required this.title});
@@ -16,8 +20,8 @@ class ResourcesPage extends StatefulWidget {
 
 class _ResourcesPageState extends State<ResourcesPage> {
   List<dynamic> _filieres = [];
-  String _selectedFiliere = 'LF Génie Mécanique';
-  String _selectedSemester = 'Semestre 1';
+  String _selectedFiliere = 'LF_Génie_Mécanique';
+  String _selectedSemester = 'Semestre_1';
 
   @override
   void initState() {
@@ -244,12 +248,124 @@ class UniteDetailPage extends StatelessWidget {
     String assetPath,
     BuildContext context,
   ) async {
-    final byteData = await DefaultAssetBundle.of(context).load(assetPath);
-    final file = File(
-      '${(await getTemporaryDirectory()).path}/${assetPath.split('/').last}',
+    try {
+      debugPrint('Tentative de chargement: $assetPath');
+
+      // Essayer le chemin original
+      try {
+        final byteData = await DefaultAssetBundle.of(context).load(assetPath);
+        return await _writeTempFile(byteData, assetPath);
+      } catch (e) {
+        debugPrint('Échec avec le chemin original: $e');
+      }
+
+      // Essayer avec un chemin nettoyé
+      final cleanPath = _cleanAssetPath(assetPath);
+      debugPrint('Essai avec chemin nettoyé: $cleanPath');
+
+      final byteData = await DefaultAssetBundle.of(context).load(cleanPath);
+      return await _writeTempFile(byteData, cleanPath);
+    } catch (e) {
+      debugPrint('Erreur détaillée: $e');
+      rethrow;
+    }
+  }
+
+  String _cleanAssetPath(String path) {
+    // Remplacer les espaces par des underscores
+    path = path.replaceAll(' ', '_');
+    // Supprimer les caractères spéciaux
+    path = path.replaceAll(RegExp(r'[^a-zA-Z0-9/_\.-]'), '');
+    return path.toLowerCase();
+  }
+
+  Future<String> _writeTempFile(ByteData byteData, String originalPath) async {
+    if (byteData.lengthInBytes == 0) {
+      throw Exception('Fichier vide');
+    }
+
+    final fileName = originalPath.split('/').last;
+    final tempDir = await getTemporaryDirectory();
+    final file = File('${tempDir.path}/$fileName');
+
+    await file.writeAsBytes(
+      byteData.buffer.asUint8List(
+        byteData.offsetInBytes,
+        byteData.lengthInBytes,
+      ),
     );
-    await file.writeAsBytes(byteData.buffer.asUint8List());
+
     return file.path;
+  }
+
+  // Méthode pour visualiser
+  Future<void> _viewPdf(
+    BuildContext context,
+    String pdfPath,
+    String pdfName,
+  ) async {
+    try {
+      final tempFilePath = await _copyAssetToTempFile(pdfPath, context);
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                PDFViewerPage(title: pdfName, filePath: tempFilePath),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erreur de visualisation: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  // Méthode pour télécharger
+  Future<void> _downloadPdf(
+    BuildContext context,
+    String pdfPath,
+    String pdfName,
+  ) async {
+    try {
+      final byteData = await DefaultAssetBundle.of(context).load(pdfPath);
+      final downloadsDir = await getDownloadsDirectory();
+      final file = File('${downloadsDir?.path}/$pdfName');
+
+      await file.writeAsBytes(
+        byteData.buffer.asUint8List(
+          byteData.offsetInBytes,
+          byteData.lengthInBytes,
+        ),
+      );
+
+      // Ouvrir le fichier avec une app par défaut
+      await OpenFile.open(file.path);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('PDF téléchargé: ${file.path}'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erreur de téléchargement: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -311,32 +427,47 @@ class UniteDetailPage extends StatelessWidget {
                             ),
                             onTap: () async {
                               try {
-                                final tempFilePath = await _copyAssetToTempFile(
-                                  pdfPath,
-                                  context,
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Ouvrir le PDF'),
+                                    content: const Text(
+                                      'Choisissez une action:',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+                                          await _viewPdf(
+                                            context,
+                                            pdfPath,
+                                            pdfName,
+                                          );
+                                        },
+                                        child: const Text('Voir'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+                                          await _downloadPdf(
+                                            context,
+                                            pdfPath,
+                                            pdfName,
+                                          );
+                                        },
+                                        child: const Text('Télécharger'),
+                                      ),
+                                    ],
+                                  ),
                                 );
-                                if (context.mounted) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PDFViewerPage(
-                                        title: pdfName,
-                                        filePath: tempFilePath,
-                                      ),
-                                    ),
-                                  );
-                                }
                               } catch (e) {
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Erreur lors de l\'ouverture du PDF : $e',
-                                      ),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                }
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Erreur: $e'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
                               }
                             },
                           ),
@@ -365,12 +496,13 @@ class PDFViewerPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
-      body: PDFView(
-        filePath: filePath,
-        onError: (error) {
+      body: SfPdfViewer.file(
+        File(filePath),
+        onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Erreur lors du chargement du PDF : $error'),
+              content: Text('Erreur de chargement: ${details.error}'),
+              backgroundColor: Colors.red,
             ),
           );
         },

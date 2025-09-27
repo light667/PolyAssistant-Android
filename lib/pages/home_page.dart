@@ -18,8 +18,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   String _pseudo = 'Utilisateur';
-  String _filiere = 'LF_Génie_Mécanique';
-  String _semestre = 'Semestre_1';
 
   final List<Widget> _pages = const <Widget>[
     HomeContent(),
@@ -48,8 +46,6 @@ class _HomePageState extends State<HomePage> {
       if (mounted) {
         setState(() {
           _pseudo = pseudo ?? 'Utilisateur';
-          _filiere = filiere ?? 'LF_Génie_Mécanique';
-          _semestre = semestre ?? 'Semestre 1';
         });
       }
     } catch (e) {
@@ -156,8 +152,6 @@ class HomeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.findAncestorStateOfType<_HomePageState>();
     final pseudo = state?._pseudo ?? 'Utilisateur';
-    final filiere = state?._filiere ?? 'LF_Génie_Mécanique';
-    final semestre = state?._semestre ?? 'Semestre_1';
 
     return SafeArea(
       child: SingleChildScrollView(
