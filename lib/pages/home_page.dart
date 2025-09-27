@@ -18,8 +18,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   String _pseudo = 'Utilisateur';
-  String _filiere = 'LF Génie Mécanique';
-  String _semestre = 'Semestre 1';
+  String _filiere = 'LF_Génie_Mécanique';
+  String _semestre = 'Semestre_1';
 
   final List<Widget> _pages = const <Widget>[
     HomeContent(),
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
       if (mounted) {
         setState(() {
           _pseudo = pseudo ?? 'Utilisateur';
-          _filiere = filiere ?? 'LF Génie Mécanique';
+          _filiere = filiere ?? 'LF_Génie_Mécanique';
           _semestre = semestre ?? 'Semestre 1';
         });
       }
@@ -156,8 +156,8 @@ class HomeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.findAncestorStateOfType<_HomePageState>();
     final pseudo = state?._pseudo ?? 'Utilisateur';
-    final filiere = state?._filiere ?? 'LF Génie Mécanique';
-    final semestre = state?._semestre ?? 'Semestre 1';
+    final filiere = state?._filiere ?? 'LF_Génie_Mécanique';
+    final semestre = state?._semestre ?? 'Semestre_1';
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -170,37 +170,16 @@ class HomeContent extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'Bienvenue, $pseudo !',
+                      'Bienvenue, cher $pseudo !',
                       style: Theme.of(context).textTheme.headlineLarge
                           ?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.primary,
                           ),
                     ).animate().fadeIn(duration: 600.ms).slideY(),
-                  ),
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    child: Text(
-                      pseudo[0].toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ).animate().scale(duration: 800.ms, delay: 200.ms),
-                ],
+                  ),                ],
               ),
               const SizedBox(height: 8),
-              Text(
-                '$filiere - $semestre',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ).animate().fadeIn(duration: 800.ms).slideY(),
-              const SizedBox(height: 16),
               Text(
                 'Votre assistant pour réussir vos études à l\'Ecole Polytechnique de Lomé',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -227,7 +206,7 @@ class HomeContent extends StatelessWidget {
                       ).animate().fadeIn(duration: 1200.ms),
                       const SizedBox(height: 8),
                       Text(
-                        'Découvrez des cours adaptés à votre $filiere, $semestre.',
+                        'Découvrez des cours adaptés à votre filiere et semestre.',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
@@ -308,8 +287,35 @@ class HomeContent extends StatelessWidget {
                       const SizedBox(height: 12),
                       _buildSkillCard(
                         context,
-                        icon: FontAwesomeIcons.mobileScreenButton,
-                        title: 'Apprendre le développement mobile',
+                        icon: FontAwesomeIcons.html5,
+                        title: 'Apprendre le développement web',
+                        description: 'Créez votre site web avec HTML5 & CSS3',
+                        url:
+                            'https://openclassrooms.com/fr/courses/1603881-creez-votre-site-web-avec-html5-et-css3',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildSkillCard(
+                        context,
+                        icon: FontAwesomeIcons.js,
+                        title: 'Apprendre a programmer avec JavaScript',
+                        description:
+                            'Maitriser les bases et la logique de la programmation JavaScript',
+                        url:
+                            'https://openclassrooms.com/fr/courses/7168871-apprenez-les-bases-du-langage-python',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildSkillCard(
+                        context,
+                        icon: FontAwesomeIcons.git,
+                        title: 'Maitriser Git & Github',
+                        description: 'Gérez du code avec Git et Github',
+                        url:
+                            'https://openclassrooms.com/fr/courses/1603881-creez-votre-site-web-avec-html5-et-css3',
+                      ),
+                      _buildSkillCard(
+                        context,
+                        icon: FontAwesomeIcons.flutter,
+                        title: 'Apprendre le développement mobile avec Flutter',
                         description:
                             'Suivez une formation complète sur Flutter pour créer des apps Android/iOS.',
                         url:
@@ -318,17 +324,142 @@ class HomeContent extends StatelessWidget {
                       const SizedBox(height: 12),
                       _buildSkillCard(
                         context,
-                        icon: FontAwesomeIcons.userGraduate,
-                        title: 'Trouver un mentor',
-                        description:
-                            'Connectez-vous avec un mentor en développement mobile via MentorCruise.',
-                        url: 'https://wa.link/5shcdl',
+                        icon: FontAwesomeIcons.python,
+                        title: 'Formation Python + Certificat: Anglais',
+                        description: 'Python for beginners',
+                        url:
+                            'https://www.simplilearn.com/learn-python-basics-free-course-skillup?tag=python',
+                      ),
+                      const SizedBox(height: 16),
+                      _buildSkillCard(
+                        context,
+                        icon: FontAwesomeIcons.python,
+                        title: 'Programation Python : Français',
+                        description: 'Apprendre les bases du langage Python',
+                        url:
+                            'https://openclassrooms.com/fr/courses/7168871-apprenez-les-bases-du-langage-python',
+                      ),
+                      _buildSkillCard(
+                        context,
+                        icon: FontAwesomeIcons.c,
+                        title: 'Programation C ',
+                        description: 'Apprendre les bases du langage C',
+                        url:
+                            'https://openclassrooms.com/fr/courses/19980-apprenez-a-programmer-en-c',
+                      ),
+                      _buildSkillCard(
+                        context,
+                        icon: FontAwesomeIcons.linux,
+                        title: 'Linux',
+                        description: 'Initiez-vous à Linux',
+                        url:
+                            'https://openclassrooms.com/fr/courses/7170491-initiez-vous-a-linux',
                       ),
                     ],
                   ),
                 ),
               ).animate().fadeIn(duration: 2200.ms).slideY(),
               const SizedBox(height: 24),
+              Card(
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Plateformes d\'apprentissage en ligne',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ).animate().fadeIn(duration: 2400.ms),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Découvrez les meilleures plateformes pour renforcer vos compétences techniques.',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ).animate().fadeIn(duration: 2600.ms),
+                      const SizedBox(height: 16),
+                      _buildLearningPlatformCard(
+                        context,
+                        icon: FontAwesomeIcons.chartLine,
+                        title: 'DataCamp',
+                        description:
+                            'Apprenez la science des données et l\'analyse avec Python, R et SQL.',
+                        url: 'https://www.datacamp.com/',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildLearningPlatformCard(
+                        context,
+                        icon: FontAwesomeIcons.graduationCap,
+                        title: 'Moodle',
+                        description:
+                            'Plateforme d\'apprentissage open source utilisée par les universités.',
+                        url: 'https://moodle.org/?lang=fr',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildLearningPlatformCard(
+                        context,
+                        icon: FontAwesomeIcons.mobile,
+                        title: 'SoloLearn',
+                        description:
+                            'Apprenez à coder sur mobile avec des cours interactifs.',
+                        url: 'https://www.sololearn.com/en/',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildLearningPlatformCard(
+                        context,
+                        icon: FontAwesomeIcons.buildingColumns,
+                        title: 'Coursera',
+                        description:
+                            'Cours en ligne des meilleures universités mondiales.',
+                        url: 'https://www.coursera.org/',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildLearningPlatformCard(
+                        context,
+                        icon: FontAwesomeIcons.code,
+                        title: 'freeCodeCamp',
+                        description:
+                            'Apprenez le développement web gratuitement avec des projets pratiques.',
+                        url: 'https://www.freecodecamp.org/',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildLearningPlatformCard(
+                        context,
+                        icon: FontAwesomeIcons.laptopCode,
+                        title: 'HackerRank',
+                        description:
+                            'Améliorez vos compétences en programmation grâce à des défis codés.',
+                        url: 'https://www.hackerrank.com/',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildLearningPlatformCard(
+                        context,
+                        icon: FontAwesomeIcons.desktop,
+                        title: 'OpenClassrooms',
+                        description:
+                            'Formations en ligne avec mentorat pour obtenir des diplômes reconnus.',
+                        url: 'https://openclassrooms.com/fr/',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildLearningPlatformCard(
+                        context,
+                        icon: FontAwesomeIcons.rocket,
+                        title: 'Simplilearn',
+                        description:
+                            'Formations certifiantes en digital skills et technologies émergentes.',
+                        url: 'https://www.simplilearn.com/',
+                      ),
+                    ],
+                  ),
+                ),
+              ).animate().fadeIn(duration: 2800.ms).slideY(),
               Center(
                 child: Text(
                   'Explorez et réussissez avec PolyAssistant !',
@@ -475,6 +606,112 @@ class HomeContent extends StatelessWidget {
                       color: Theme.of(
                         context,
                       ).colorScheme.onSurface.withValues(alpha: 0.8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            FaIcon(
+              FontAwesomeIcons.arrowRight,
+              color: Theme.of(context).colorScheme.secondary,
+              size: 18,
+            ),
+          ],
+        ),
+      ),
+    ).animate().fadeIn(duration: 300.ms).scale(curve: Curves.easeInOut);
+  }
+
+  Widget _buildLearningPlatformCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String description,
+    required String url,
+  }) {
+    return InkWell(
+      onTap: () async {
+        try {
+          final uri = Uri.parse(url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Ouverture de : $title'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+          } else {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Impossible d\'ouvrir le lien : $url'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          }
+        } catch (e) {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Erreur lors de l\'ouverture du lien : $e'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        }
+      },
+      borderRadius: BorderRadius.circular(12),
+      splashColor: Theme.of(
+        context,
+      ).colorScheme.secondary.withAlpha((0.2 * 255).round()),
+      highlightColor: Theme.of(
+        context,
+      ).colorScheme.primary.withAlpha((0.1 * 255).round()),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Theme.of(
+            context,
+          ).colorScheme.primary.withAlpha((0.05 * 255).round()),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Theme.of(
+              context,
+            ).colorScheme.primary.withAlpha((0.2 * 255).round()),
+          ),
+        ),
+        child: Row(
+          children: [
+            FaIcon(
+              icon,
+              color: Theme.of(context).colorScheme.secondary,
+              size: 24,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withAlpha((0.8 * 255).round()),
                     ),
                   ),
                 ],

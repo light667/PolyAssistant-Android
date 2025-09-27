@@ -15,11 +15,15 @@ import 'package:polyassistant/pages/edit_profile_page.dart';
 import 'package:polyassistant/providers/theme_provider.dart';
 import 'package:polyassistant/pages/notifications_page.dart';
 import 'package:polyassistant/services/notification_service.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await NotificationService.initialize(); // Initialisation FCM
+  if (!kIsWeb) {
+    await NotificationService.initialize();
+  }
 
   runApp(
     ChangeNotifierProvider(
@@ -40,9 +44,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PolyAssistant',
       theme: ThemeData(
-        primaryColor: const Color(0xFF1E3A8A),
+        primaryColor: const Color.fromARGB(255, 4, 68, 244),
         colorScheme: const ColorScheme.light(
-          primary: Color(0xFF1E3A8A),
+          primary: Color.fromARGB(255, 4, 68, 244),
           secondary: Color(0xFFFBBF24),
           surface: Color(0xFFF3F4F6),
           onPrimary: Colors.white,

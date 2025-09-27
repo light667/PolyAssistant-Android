@@ -12,7 +12,12 @@
           "package_name": "com.example.polyassistant"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "39495723329-7umbp2plplt743kmj7ekehtha15rsplm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC25t9OVxlhHPmn97b4WykHKIqEbE2RaOY"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39495723329-7umbp2plplt743kmj7ekehtha15rsplm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "39495723329-vgo98ti121qlhc6cfjl3d21tbll0u6ia.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.polyassistant"
+              }
+            }
+          ]
         }
       }
     }

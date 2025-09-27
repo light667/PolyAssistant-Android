@@ -7,31 +7,22 @@ import 'dart:convert';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn.standard();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile'],
+    // Configuration spécifique pour le web
+    clientId: kIsWeb
+        ? '39495723329-7umbp2plplt743kmj7ekehtha15rsplm.apps.googleusercontent.com'
+        : null,
+  );
 
   User? get currentUser => _firebaseAuth.currentUser;
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   Future<void> loginWithEmailAndPassword(String email, String password) async {
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (kDebugMode) {
-        print("Erreur de connexion: code=${e.code}, message=${e.message}");
-      }
-      throw FirebaseAuthException(
-        code: e.code,
-        message: e.message ?? 'Erreur lors de la connexion',
-      );
-    } catch (e) {
-      if (kDebugMode) {
-        print("Erreur inattendue lors de la connexion: $e");
-      }
-      throw Exception('Erreur inattendue lors de la connexion');
-    }
+    await _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   Future<void> createUserWithEmailAndPassword(
@@ -39,66 +30,30 @@ class Auth {
     String password,
     String username,
   ) async {
-    try {
-      UserCredential userCredential = await _firebaseAuth
-          .createUserWithEmailAndPassword(
-            email: email.trim(),
-            password: password,
-          );
-      if (userCredential.user != null) {
-        await userCredential.user!.updateDisplayName(username);
-        await userCredential.user!.reload();
-      }
-    } on FirebaseAuthException catch (e) {
-      throw FirebaseAuthException(
-        code: e.code,
-        message: e.message ?? 'Erreur lors de la création du compte',
-      );
-    } catch (e) {
-      if (kDebugMode) {
-        print("Erreur inattendue lors de la création du compte: $e");
-      }
-      throw Exception('Erreur inattendue lors de la création du compte');
-    }
-  }
+    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
 
-  Future<void> updateDisplayName(String username) async {
-    final user = _firebaseAuth.currentUser;
-    if (user != null) {
-      await user.updateDisplayName(username);
-      await user.reload();
-    }
+    // Mise à jour du profil avec le pseudo
+    await userCredential.user!.updateDisplayName(username);
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
-    await _firebaseAuth.sendPasswordResetEmail(email: email.trim());
+    await _firebaseAuth.sendPasswordResetEmail(
+      email: email.trim().toLowerCase(),
+    );
   }
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) {
-        throw FirebaseAuthException(
-          code: 'ERROR_ABORTED_BY_USER',
-          message: 'Connexion Google annulée par l\'utilisateur',
-        );
+      if (kIsWeb) {
+        // Méthode spécifique pour le web
+        return await _signInWithGoogleWeb();
+      } else {
+        // Méthode pour mobile
+        return await _signInWithGoogleMobile();
       }
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      if (googleAuth.idToken == null) {
-        throw FirebaseAuthException(
-          code: 'ERROR_MISSING_ID_TOKEN',
-          message: 'ID Token manquant lors du Google Sign-In',
-        );
-      }
-
-      final OAuthCredential credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-        accessToken: googleAuth.accessToken,
-      );
-
-      return await _firebaseAuth.signInWithCredential(credential);
     } catch (e) {
       if (kDebugMode) {
         print("Erreur Google Sign-In: $e");
@@ -107,10 +62,38 @@ class Auth {
     }
   }
 
+  Future<UserCredential> _signInWithGoogleMobile() async {
+    await _googleSignIn.signOut();
+
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    if (googleUser == null) {
+      throw FirebaseAuthException(
+        code: 'ERROR_ABORTED_BY_USER',
+        message: 'Connexion Google annulée par l\'utilisateur',
+      );
+    }
+
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final OAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    return await _firebaseAuth.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> _signInWithGoogleWeb() async {
+    // Pour le web, utilise la méthode native de Firebase Auth
+    final GoogleAuthProvider googleProvider = GoogleAuthProvider();
+    return await _firebaseAuth.signInWithPopup(googleProvider);
+  }
+
   Future<UserCredential?> signInWithGitHub() async {
     try {
-      const clientId = "Iv23liFybkiMBB3yAQ4k";
-      const clientSecret = "ea1a416659bd383c2578cb9cd3ad5370fd549884";
+      const clientId = "Ov23lisp9CxpO1uOAY7H";
+      const clientSecret = "9f44ec56471457918afe3b3eb5d6a11be7265ac5";
 
       final result = await FlutterWebAuth.authenticate(
         url:
@@ -151,6 +134,8 @@ class Auth {
 
   Future<void> logout() async {
     await _firebaseAuth.signOut();
-    await _googleSignIn.signOut();
+    if (!kIsWeb) {
+      await _googleSignIn.signOut();
+    }
   }
 }
