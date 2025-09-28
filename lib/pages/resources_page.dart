@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +6,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:open_file/open_file.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:html' as html;
 
 class ResourcesPage extends StatefulWidget {
   const ResourcesPage({super.key, required this.title});
@@ -22,7 +23,6 @@ class _ResourcesPageState extends State<ResourcesPage> {
   String _selectedSemester = '';
   bool _isLoading = true;
 
-  // Couleurs personnalisées pour un design professionnel
   final Color _primaryColor = const Color(0xFF1E3A8A);
   final Color _secondaryColor = const Color(0xFF3B82F6);
   final Color _accentColor = const Color(0xFFF59E0B);
@@ -35,16 +35,20 @@ class _ResourcesPageState extends State<ResourcesPage> {
 
   Future<void> _loadManifest() async {
     try {
-      final manifestString = await DefaultAssetBundle.of(context)
-          .loadString('assets/resources_manifest.json');
+      final manifestString = await DefaultAssetBundle.of(
+        context,
+      ).loadString('assets/resources_manifest.json');
       final manifestJson = jsonDecode(manifestString);
-      
+
       if (mounted) {
         setState(() {
           _filieres = manifestJson['filieres'] ?? [];
           if (_filieres.isNotEmpty) {
             _selectedFiliere = _filieres[0]['name'];
-            _selectedSemester = _getSemestersForFiliere(_selectedFiliere)[0];
+            final semesters = _getSemestersForFiliere(_selectedFiliere);
+            if (semesters.isNotEmpty) {
+              _selectedSemester = semesters[0];
+            }
           }
           _isLoading = false;
         });
@@ -63,20 +67,19 @@ class _ResourcesPageState extends State<ResourcesPage> {
     }
   }
 
-  // Fonction pour formater les noms (enlever underscores, mettre en majuscules, etc.)
   String _formatDisplayName(String name) {
     if (name.isEmpty) return name;
-    
-    // Remplacer les underscores par des espaces
+
     String formatted = name.replaceAll('_', ' ');
-    
-    // Capitaliser chaque mot
-    formatted = formatted.toLowerCase().split(' ').map((word) {
-      if (word.isEmpty) return '';
-      return word[0].toUpperCase() + word.substring(1);
-    }).join(' ');
-    
-    // Corrections spécifiques pour les acronymes
+    formatted = formatted
+        .toLowerCase()
+        .split(' ')
+        .map((word) {
+          if (word.isEmpty) return '';
+          return word[0].toUpperCase() + word.substring(1);
+        })
+        .join(' ');
+
     formatted = formatted
         .replaceAll('Lf', 'LF')
         .replaceAll('Ia', 'IA')
@@ -88,7 +91,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
         .replaceAll('Civil', 'Civil')
         .replaceAll('Logistique', 'Logistique')
         .replaceAll('Transport', 'Transport');
-    
+
     return formatted;
   }
 
@@ -116,13 +119,16 @@ class _ResourcesPageState extends State<ResourcesPage> {
         (f) => f['name'] == filiereName,
         orElse: () => {'semestres': []},
       );
-      
+
       final semester = (filiere['semestres'] as List).firstWhere(
         (s) => s['name'] == semesterName,
         orElse: () => {'matieres': []},
       );
-      
-      return (semester['matieres'] as List).cast<Map<String, dynamic>>();
+
+      final matieres = (semester['matieres'] as List)
+          .cast<Map<String, dynamic>>();
+
+      return matieres;
     } catch (e) {
       debugPrint('Erreur lors de la récupération des matières: $e');
       return [];
@@ -148,7 +154,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -201,7 +207,9 @@ class _ResourcesPageState extends State<ResourcesPage> {
                         '${_getSemestersForFiliere(filiereName).length} semestres',
                         style: TextStyle(
                           fontSize: 12,
-                          color: isSelected ? Colors.white70 : Colors.grey.shade600,
+                          color: isSelected
+                              ? Colors.white70
+                              : Colors.grey.shade600,
                         ),
                       ),
                     ],
@@ -237,74 +245,40 @@ class _ResourcesPageState extends State<ResourcesPage> {
         },
         backgroundColor: Colors.grey.shade100,
         selectedColor: _primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         elevation: 2,
         pressElevation: 4,
       ),
     );
   }
 
-  Widget _buildMatiereCard(Map<String, dynamic> matiere, int index) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.white, Colors.grey.shade50],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(16),
+  // NOUVEAU : Carte de matière pour affichage horizontal
+  Widget _buildMatiereCardHorizontal(Map<String, dynamic> matiere, int index) {
+    final pdfCount = matiere['pdfs']?.length ?? 0;
+
+    return AnimatedContainer(
+      duration: 300.ms,
+      width: 160, // Largeur fixe pour l'affichage horizontal
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.white, Colors.grey.shade50],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        child: ListTile(
-          leading: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: _primaryColor.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: FaIcon(
-              FontAwesomeIcons.book,
-              color: _primaryColor,
-              size: 20,
-            ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-          title: Text(
-            _formatDisplayName(matiere['name']),
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 4),
-              Text(
-                '${matiere['pdfs']?.length ?? 0} PDF(s) disponible(s)',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ],
-          ),
-          trailing: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: _accentColor.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: _accentColor,
-              size: 16,
-            ),
-          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
           onTap: () {
             Navigator.push(
               context,
@@ -319,9 +293,74 @@ class _ResourcesPageState extends State<ResourcesPage> {
               ),
             );
           },
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Icone et titre
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: _primaryColor.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: FaIcon(
+                        FontAwesomeIcons.book,
+                        color: _primaryColor,
+                        size: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _formatDisplayName(matiere['name']),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        height: 1.2,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+
+                // Nombre de PDFs
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _accentColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.picture_as_pdf, color: _accentColor, size: 12),
+                      const SizedBox(width: 4),
+                      Text(
+                        '$pdfCount PDF${pdfCount > 1 ? 's' : ''}',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: _accentColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
-    ).animate(delay: (index * 100).ms).fadeIn().slideX(begin: 0.2);
+    );
   }
 
   @override
@@ -337,10 +376,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
       appBar: AppBar(
         title: const Text(
           "Ressources Pédagogiques",
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 20,
-          ),
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
         ),
         backgroundColor: _primaryColor,
         foregroundColor: Colors.white,
@@ -350,8 +386,8 @@ class _ResourcesPageState extends State<ResourcesPage> {
       body: _isLoading
           ? _buildLoadingState()
           : _filieres.isEmpty
-              ? _buildEmptyState()
-              : _buildContent(semesters, matieres),
+          ? _buildEmptyState()
+          : _buildContent(semesters, matieres),
     );
   }
 
@@ -360,14 +396,13 @@ class _ResourcesPageState extends State<ResourcesPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(_primaryColor)),
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation(_primaryColor),
+          ),
           const SizedBox(height: 20),
           Text(
             'Chargement des ressources...',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
           ),
         ],
       ),
@@ -400,162 +435,219 @@ class _ResourcesPageState extends State<ResourcesPage> {
     );
   }
 
-  Widget _buildContent(List<String> semesters, List<Map<String, dynamic>> matieres) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Section des filières
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.school_rounded, color: _primaryColor, size: 24),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Choisissez votre filière',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade800,
+  // CORRECTION : Widget de contenu avec défilement
+  Widget _buildContent(
+    List<String> semesters,
+    List<Map<String, dynamic>> matieres,
+  ) {
+    return SingleChildScrollView(
+      // ✅ AJOUTÉ : Permet le défilement
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Section des filières
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.school_rounded, color: _primaryColor, size: 24),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Choisissez votre filière',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade800,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Sélectionnez votre domaine d\'étude pour accéder aux ressources correspondantes',
-                style: TextStyle(
-                  color: Colors.grey.shade600,
+                  ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 12),
+                Text(
+                  'Sélectionnez votre domaine d\'étude pour accéder aux ressources correspondantes',
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
+              ],
+            ),
           ),
-        ),
-        
-        // Liste horizontale des filières
-        SizedBox(
-          height: 120,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: _filieres.length,
-            itemBuilder: (context, index) {
-              final filiere = _filieres[index]['name'];
-              return _buildFiliereCard(
-                filiere,
-                filiere == _selectedFiliere,
-              ).animate(delay: (index * 100).ms).fadeIn().slideX(begin: 0.3);
-            },
+
+          // Liste horizontale des filières
+          SizedBox(
+            height: 120,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              itemCount: _filieres.length,
+              itemBuilder: (context, index) {
+                final filiere = _filieres[index]['name'];
+                return _buildFiliereCard(
+                  filiere,
+                  filiere == _selectedFiliere,
+                ).animate(delay: (index * 100).ms).fadeIn().slideX(begin: 0.3);
+              },
+            ),
           ),
-        ),
-        
-        // Section des semestres
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.calendar_today_rounded, color: _primaryColor, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Semestre',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade800,
+
+          // Section des semestres
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today_rounded,
+                      color: _primaryColor,
+                      size: 20,
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-            ],
-          ),
-        ),
-        
-        // Chips des semestres
-        SizedBox(
-          height: 60,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            itemCount: semesters.length,
-            itemBuilder: (context, index) {
-              final semester = semesters[index];
-              return _buildSemesterChip(
-                semester,
-                semester == _selectedSemester,
-              ).animate(delay: (index * 80).ms).fadeIn().scale();
-            },
-          ),
-        ),
-        
-        // Section des matières
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Icon(Icons.menu_book_rounded, color: _primaryColor, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                'Unités d\'enseignement',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey.shade800,
+                    const SizedBox(width: 8),
+                    Text(
+                      'Semestre',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade800,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const Spacer(),
-              Chip(
-                label: Text(
-                  '${matieres.length} matière(s)',
-                  style: const TextStyle(fontSize: 12),
-                ),
-                backgroundColor: _primaryColor.withOpacity(0.1),
-              ),
-            ],
+                const SizedBox(height: 12),
+              ],
+            ),
           ),
-        ),
-        
-        // Liste des matières
-        Expanded(
-          child: matieres.isEmpty
+
+          // Chips des semestres
+          SizedBox(
+            height: 60,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              itemCount: semesters.length,
+              itemBuilder: (context, index) {
+                final semester = semesters[index];
+                return _buildSemesterChip(
+                  semester,
+                  semester == _selectedSemester,
+                ).animate(delay: (index * 80).ms).fadeIn().scale();
+              },
+            ),
+          ),
+
+          // NOUVEAU : Section des matières en horizontal
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.menu_book_rounded,
+                      color: _primaryColor,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Unités d\'enseignement',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade800,
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _primaryColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '${matieres.length} matière(s)',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: _primaryColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Sélectionnez une matière pour accéder aux ressources',
+                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                ),
+              ],
+            ),
+          ),
+
+          // NOUVEAU : Liste horizontale des matières
+          matieres.isEmpty
               ? _buildNoMatieresState()
-              : ListView.builder(
-                  itemCount: matieres.length,
-                  itemBuilder: (context, index) {
-                    return _buildMatiereCard(matieres[index], index);
-                  },
+              : SizedBox(
+                  height: 140, // Hauteur fixe pour la liste horizontale
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    itemCount: matieres.length,
+                    itemBuilder: (context, index) {
+                      return _buildMatiereCardHorizontal(matieres[index], index)
+                          .animate(delay: (index * 100).ms)
+                          .fadeIn()
+                          .slideX(begin: 0.2);
+                    },
+                  ),
                 ),
-        ),
-      ],
+
+          // Espace en bas pour permettre le défilement
+          const SizedBox(height: 40),
+        ],
+      ),
     );
   }
 
   Widget _buildNoMatieresState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.folder_open_rounded, size: 60, color: Colors.grey.shade400),
-          const SizedBox(height: 16),
-          Text(
-            'Aucune matière disponible',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade600,
+    return Container(
+      height: 140,
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.folder_open_rounded,
+              size: 40,
+              color: Colors.grey.shade400,
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Aucun contenu n\'est disponible pour cette sélection',
-            style: TextStyle(color: Colors.grey.shade500),
-          ),
-        ],
+            const SizedBox(height: 12),
+            Text(
+              'Aucune matière disponible',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade600,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Aucun contenu pour cette sélection',
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -577,16 +669,19 @@ class UniteDetailPage extends StatelessWidget {
     required this.pdfs,
   });
 
-  // Fonction de formatage (identique à celle de la page principale)
   String _formatDisplayName(String name) {
     if (name.isEmpty) return name;
-    
+
     String formatted = name.replaceAll('_', ' ');
-    formatted = formatted.toLowerCase().split(' ').map((word) {
-      if (word.isEmpty) return '';
-      return word[0].toUpperCase() + word.substring(1);
-    }).join(' ');
-    
+    formatted = formatted
+        .toLowerCase()
+        .split(' ')
+        .map((word) {
+          if (word.isEmpty) return '';
+          return word[0].toUpperCase() + word.substring(1);
+        })
+        .join(' ');
+
     formatted = formatted
         .replaceAll('Lf', 'LF')
         .replaceAll('Ia', 'IA')
@@ -594,120 +689,194 @@ class UniteDetailPage extends StatelessWidget {
         .replaceAll('Genie', 'Génie')
         .replaceAll('Mecanique', 'Mécanique')
         .replaceAll('Electrique', 'Électrique');
-    
+
     return formatted;
   }
 
-  Future<String> _copyAssetToTempFile(String assetPath, BuildContext context) async {
+  // CORRECTION : Méthode simplifiée pour charger les PDFs locaux
+  Future<String> _loadPdfToTempFile(
+    String assetPath,
+    BuildContext context,
+  ) async {
     try {
-      debugPrint('Chargement du PDF: $assetPath');
-      
-      final byteData = await DefaultAssetBundle.of(context).load(assetPath);
-      
+      debugPrint('🔄 Chargement du PDF local: $assetPath');
+
+      // CORRECTION : Utiliser le chemin tel quel depuis le manifeste
+      // Le manifeste donne déjà le bon chemin : "assets/resources/lf_genie_civil/..."
+      String cleanPath = assetPath;
+
+      debugPrint('🔄 Chemin utilisé: $cleanPath');
+
+      final byteData = await DefaultAssetBundle.of(context).load(cleanPath);
+
       if (byteData.lengthInBytes == 0) {
-        throw Exception('Fichier vide ou introuvable');
+        throw Exception('Fichier vide ou introuvable: $cleanPath');
       }
-      
-      final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final fileName = '${assetPath.split('/').last}_$timestamp.pdf';
-      
+
+      // Créer un fichier temporaire
       final tempDir = await getTemporaryDirectory();
+      final fileName = '${DateTime.now().millisecondsSinceEpoch}.pdf';
       final file = File('${tempDir.path}/$fileName');
-      
+
       await file.writeAsBytes(
         byteData.buffer.asUint8List(
           byteData.offsetInBytes,
           byteData.lengthInBytes,
         ),
       );
-      
-      debugPrint('PDF sauvegardé à: ${file.path}');
+
+      if (!await file.exists()) {
+        throw Exception('Échec de la création du fichier temporaire');
+      }
+
+      debugPrint('✅ PDF chargé avec succès: ${file.path}');
       return file.path;
     } catch (e) {
-      debugPrint('Erreur lors de la copie du fichier: $e');
+      debugPrint('❌ Erreur lors du chargement du PDF: $e');
       rethrow;
     }
   }
 
-  Future<void> _viewPdf(BuildContext context, String pdfPath, String pdfName) async {
+  Future<void> _handlePdfAction(
+    BuildContext context,
+    String pdfPath,
+    String pdfName,
+    bool isDownload,
+  ) async {
     try {
+      // Afficher un indicateur de chargement
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          content: Center(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.blue[700]!),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(isDownload ? 'Téléchargement...' : 'Chargement...'),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Depuis les ressources locales',
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       );
 
-      final tempFilePath = await _copyAssetToTempFile(pdfPath, context);
-      
+      if (isDownload) {
+        await _downloadPdf(context, pdfPath, pdfName);
+      } else {
+        await _viewPdf(context, pdfPath, pdfName);
+      }
+
+      // Fermer le dialogue de chargement
       if (context.mounted) {
         Navigator.of(context).pop();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PDFViewerPage(
-              title: pdfName,
-              filePath: tempFilePath,
-            ),
-          ),
-        );
       }
     } catch (e) {
+      // Fermer le dialogue de chargement en cas d'erreur
       if (context.mounted) {
         Navigator.of(context).pop();
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Erreur de visualisation: $e'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Erreur: ${e.toString()}'),
+                const SizedBox(height: 4),
+                Text('Fichier: $pdfName', style: const TextStyle(fontSize: 12)),
+                const SizedBox(height: 4),
+                Text('Chemin: $pdfPath', style: const TextStyle(fontSize: 10)),
+              ],
+            ),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 8),
           ),
         );
       }
     }
   }
 
-  Future<void> _downloadPdf(BuildContext context, String pdfPath, String pdfName) async {
+  Future<void> _viewPdf(
+    BuildContext context,
+    String pdfPath,
+    String pdfName,
+  ) async {
     try {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-
-      final byteData = await DefaultAssetBundle.of(context).load(pdfPath);
-      final downloadsDir = await getDownloadsDirectory();
-      final file = File('${downloadsDir?.path}/$pdfName');
-
-      await file.writeAsBytes(
-        byteData.buffer.asUint8List(
-          byteData.offsetInBytes,
-          byteData.lengthInBytes,
-        ),
-      );
-
-      await OpenFile.open(file.path);
+      final tempFilePath = await _loadPdfToTempFile(pdfPath, context);
 
       if (context.mounted) {
-        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                PDFViewerPage(title: pdfName, filePath: tempFilePath),
+          ),
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> _downloadPdf(
+    BuildContext context,
+    String pdfPath,
+    String pdfName,
+  ) async {
+    try {
+      final tempFilePath = await _loadPdfToTempFile(pdfPath, context);
+      final file = File(tempFilePath);
+
+      // Vérifier que le fichier existe
+      if (!await file.exists()) {
+        throw Exception('Fichier temporaire introuvable');
+      }
+
+      // Pour le web, on utilise une approche différente
+      if (kIsWeb) {
+        final bytes = await file.readAsBytes();
+        final blob = html.Blob([bytes], 'application/pdf');
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.AnchorElement(href: url)
+          ..setAttribute('download', pdfName)
+          ..click();
+        html.Url.revokeObjectUrl(url);
+      } else {
+        // Pour mobile/desktop
+        final downloadsDir = await getDownloadsDirectory();
+        final newFile = File('${downloadsDir?.path}/$pdfName');
+        await newFile.writeAsBytes(await file.readAsBytes());
+        await OpenFile.open(newFile.path);
+      }
+
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('PDF téléchargé avec succès!'),
+            content: const Text('PDF téléchargé avec succès!'),
             backgroundColor: Colors.green,
           ),
         );
       }
     } catch (e) {
-      if (context.mounted) {
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erreur de téléchargement: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      rethrow;
     }
   }
 
@@ -727,51 +896,96 @@ class UniteDetailPage extends StatelessWidget {
         elevation: 0,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // En-tête informatif
+          // En-tête informatif COMPACT
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [primaryColor.withOpacity(0.1), Colors.transparent],
+                colors: [
+                  primaryColor.withValues(alpha: 0.05),
+                  primaryColor.withValues(alpha: 0.02),
+                ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
+              ),
+              border: Border(
+                bottom: BorderSide(color: Colors.grey.shade200, width: 1),
               ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  _formatDisplayName(filiere),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
+                Row(
+                  children: [
+                    Icon(Icons.school, size: 16, color: primaryColor),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        _formatDisplayName(filiere),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  'Semestre: ${_formatDisplayName(semestre)}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey.shade600,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '${pdfs.length} PDF(s) disponible(s)',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: primaryColor,
-                    fontWeight: FontWeight.w500,
-                  ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today,
+                      size: 14,
+                      color: Colors.grey.shade600,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Semestre: ${_formatDisplayName(semestre)}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: primaryColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '${pdfs.length} PDF(s)',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: primaryColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(Icons.storage, size: 14, color: Colors.blue),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Local',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          
+
           // Liste des PDFs
           Expanded(
             child: pdfs.isEmpty
@@ -779,7 +993,11 @@ class UniteDetailPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.picture_as_pdf, size: 60, color: Colors.grey.shade400),
+                        Icon(
+                          Icons.picture_as_pdf,
+                          size: 60,
+                          color: Colors.grey.shade400,
+                        ),
                         const SizedBox(height: 16),
                         Text(
                           'Aucun PDF disponible',
@@ -796,57 +1014,93 @@ class UniteDetailPage extends StatelessWidget {
                     itemCount: pdfs.length,
                     itemBuilder: (context, index) {
                       final pdfName = pdfs[index];
+                      // CORRECTION : Utiliser directement le chemin du manifeste
                       final pdfPath = '$folder/$pdfName';
-                      
+
                       return Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.only(bottom: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ListTile(
-                          leading: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.red.withOpacity(0.1),
-                              shape: BoxShape.circle,
+                            elevation: 2,
+                            margin: const EdgeInsets.only(bottom: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const FaIcon(
-                              FontAwesomeIcons.filePdf,
-                              color: Colors.red,
-                              size: 20,
-                            ),
-                          ),
-                          title: Text(
-                            _formatDisplayName(pdfName.replaceAll('.pdf', '')),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          subtitle: Text(
-                            '${(pdfName.length / 1024).toStringAsFixed(1)} KB',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.remove_red_eye, color: primaryColor),
-                                onPressed: () => _viewPdf(context, pdfPath, pdfName),
-                                tooltip: 'Voir le PDF',
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
                               ),
-                              IconButton(
-                                icon: Icon(Icons.download, color: accentColor),
-                                onPressed: () => _downloadPdf(context, pdfPath, pdfName),
-                                tooltip: 'Télécharger',
+                              leading: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.red.withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const FaIcon(
+                                  FontAwesomeIcons.filePdf,
+                                  color: Colors.red,
+                                  size: 20,
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ).animate(delay: (index * 100).ms).fadeIn().slideX(begin: 0.2);
+                              title: Text(
+                                _formatDisplayName(
+                                  pdfName.replaceAll('.pdf', ''),
+                                ),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Ressource locale • Cliquez pour ouvrir ou télécharger',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.remove_red_eye,
+                                      color: primaryColor,
+                                      size: 20,
+                                    ),
+                                    onPressed: () => _handlePdfAction(
+                                      context,
+                                      pdfPath,
+                                      pdfName,
+                                      false,
+                                    ),
+                                    tooltip: 'Voir le PDF',
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.download,
+                                      color: accentColor,
+                                      size: 20,
+                                    ),
+                                    onPressed: () => _handlePdfAction(
+                                      context,
+                                      pdfPath,
+                                      pdfName,
+                                      true,
+                                    ),
+                                    tooltip: 'Télécharger',
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .animate(delay: (index * 100).ms)
+                          .fadeIn()
+                          .slideX(begin: 0.2);
                     },
                   ),
           ),

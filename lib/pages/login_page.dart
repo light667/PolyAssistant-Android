@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:polyassistant/services/firebase/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -12,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+  String _appVersion = '';
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -19,6 +21,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   final _usernameController = TextEditingController();
   bool _isLoading = false;
   bool _forLogin = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAppVersion();
+  }
+
+  Future<void> _loadAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _appVersion = packageInfo.version;
+    });
+  }
 
   @override
   void dispose() {
@@ -546,6 +561,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             .animate()
                             .fadeIn(delay: 1100.ms, duration: 600.ms)
                             .scale(curve: Curves.easeOutCubic),
+                        const SizedBox(height: 24),
+                        Text(
+                          'Version $_appVersion',
+                          style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ).animate().fadeIn(delay: 1200.ms, duration: 600.ms),
                       ],
                     ),
                   ),

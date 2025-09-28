@@ -1,5 +1,5 @@
 name: polyassistant
-description: "A new Flutter project."
+description: "Application de ressources pédagogiques pour étudiants"
 version: 1.0.0+1
 
 environment:
@@ -28,6 +28,8 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^23.1.44
   open_file: ^3.5.10
   shimmer: ^2.0.0
+  package_info_plus: ^9.0.0
+  html: ^0.15.6
 
 dev_dependencies:
   flutter_test:
@@ -48,3 +50,4 @@ flutter:
     - assets/icon/
     - assets/resources/
     - assets/resources_manifest.json
+  
