@@ -19,8 +19,8 @@ class WelcomePage extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               colorScheme.primary,
-              colorScheme.primary.withValues(alpha: 0.9),
-              colorScheme.primary.withValues(alpha: 0.8),
+              colorScheme.primaryContainer.withValues(alpha: 0.9),
+              colorScheme.primaryContainer.withValues(alpha: 0.8),
             ],
           ),
         ),
@@ -45,68 +45,74 @@ class WelcomePage extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                       ).animate().scale(
-                        delay: 200.ms,
-                        duration: 1000.ms,
-                        curve: Curves.elasticOut,
-                      ),
+                            delay: 200.ms,
+                            duration: 1000.ms,
+                            curve: Curves.elasticOut,
+                          ),
 
                       // Icône du chapeau de diplôme
                       Container(
-                            width: 140,
-                            height: 140,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  colorScheme.secondary,
-                                  colorScheme.secondary.withValues(alpha: 0.8),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: colorScheme.secondary.withValues(alpha: 0.4),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 10),
-                                ),
-                              ],
+                        width: 140,
+                        height: 140,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              colorScheme.secondary,
+                              colorScheme.secondary.withValues(alpha: 0.8),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: colorScheme.secondary.withValues(alpha: 0.4),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
                             ),
-                            child: Icon(
-                              FontAwesomeIcons.graduationCap,
-                              size: 70,
-                              color: Colors.white,
-                            ),
-                          )
+                          ],
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.graduationCap,
+                          size: 70,
+                          color: Colors.white,
+                        ),
+                      )
                           .animate()
                           .scale(
                             delay: 300.ms,
                             duration: 800.ms,
                             curve: Curves.elasticOut,
                           )
-                          .shake(delay: 1200.ms, duration: 1000.ms, hz: 2),
+                          .rotate(
+                            begin: -0.05,
+                            end: 0.05,
+                            delay: 1200.ms,
+                            duration: 1000.ms,
+                            curve: Curves.easeInOut,
+                          ),
                     ],
                   ),
                 ),
 
                 // Titre principal
                 Text(
-                      'PolyAssistant',
-                      style: textTheme.headlineLarge?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        fontSize: 42,
-                        letterSpacing: 1.2,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black.withValues(alpha: 0.2),
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
+                  'PolyAssistant',
+                  style: textTheme.displayMedium?.copyWith(
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                    fontSize: 42,
+                    letterSpacing: 1.2,
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withValues(alpha: 0.2),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
                       ),
-                      textAlign: TextAlign.center,
-                    )
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                )
                     .animate()
                     .fadeIn(duration: 600.ms)
                     .slideY(begin: 0.3, curve: Curves.easeOutCubic),
@@ -115,15 +121,15 @@ class WelcomePage extends StatelessWidget {
 
                 // Sous-titre
                 Text(
-                      "Votre compagnon de réussite à l'École Polytechnique de Lomé",
-                      style: textTheme.titleMedium?.copyWith(
-                        color: Colors.white.withValues(alpha: 0.95),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        height: 1.4,
-                      ),
-                      textAlign: TextAlign.center,
-                    )
+                  "Votre compagnon de réussite à l'École Polytechnique de Lomé",
+                  style: textTheme.titleMedium?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.95),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    height: 1.4,
+                  ),
+                  textAlign: TextAlign.center,
+                )
                     .animate()
                     .fadeIn(delay: 200.ms, duration: 600.ms)
                     .slideY(begin: 0.2, curve: Curves.easeOutCubic),
@@ -131,169 +137,176 @@ class WelcomePage extends StatelessWidget {
                 const SizedBox(height: 60),
 
                 // Bouton Commencer (connexion)
-                Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/login',
-                            arguments: {'forLogin': true},
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: colorScheme.secondary,
-                          foregroundColor: colorScheme.onSecondary,
-                          minimumSize: const Size(double.infinity, 70),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 8,
-                          shadowColor: colorScheme.secondary.withValues(alpha: 0.5),
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.rocket_launch_rounded, size: 24),
-                            const SizedBox(width: 12),
-                            const Text(
-                              'Commencer maintenant',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 300),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/login',
+                        arguments: {'forLogin': true},
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.secondary,
+                      foregroundColor: colorScheme.onSecondary,
+                      minimumSize: const Size.fromHeight(70),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                    )
+                      elevation: 8,
+                      shadowColor: colorScheme.secondary.withValues(alpha: 0.5),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.rocket_launch_rounded, size: 24),
+                        const SizedBox(width: 12),
+                        const Text(
+                          'Commencer maintenant',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
                     .animate()
                     .fadeIn(delay: 400.ms, duration: 800.ms)
-                    .slideY(begin: 1, curve: Curves.easeOutBack),
+                    .scale( curve: Curves.easeOutBack),
 
                 const SizedBox(height: 20),
 
                 // Bouton Créer un compte (inscription)
-                Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/login',
-                            arguments: {'forLogin': false},
-                          );
-                        },
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          minimumSize: const Size(double.infinity, 70),
-                          side: BorderSide(
-                            color: Colors.white.withValues(alpha: 0.8),
-                            width: 2,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.person_add_alt_1_rounded, size: 24),
-                            const SizedBox(width: 12),
-                            const Text(
-                              'Créer un compte',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.3,
-                              ),
-                            ),
-                          ],
-                        ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 300),
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/login',
+                        arguments: {'forLogin': false},
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size.fromHeight(70),
+                      side: BorderSide(
+                        color: Colors.white.withValues(alpha: 0.8),
+                        width: 2,
                       ),
-                    )
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.person_add_alt_1_rounded, size: 24),
+                        const SizedBox(width: 12),
+                        const Text(
+                          'Créer un compte',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
                     .animate()
                     .fadeIn(delay: 600.ms, duration: 800.ms)
-                    .slideY(begin: 1, curve: Curves.easeOutBack),
+                    .scale(curve: Curves.easeOutBack),
 
                 const SizedBox(height: 50),
 
                 // Section fonctionnalités
                 Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.2),
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.2),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      // Titre section
+                      Text(
+                        'Tout ce dont vous avez besoin',
+                        style: textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                      child: Column(
-                        children: [
-                          // Titre section
-                          Text(
-                            'Tout ce dont vous avez besoin',
-                            style: textTheme.titleLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                          // Fonctionnalités
-                          _buildFeatureItem(
-                            context,
-                            Icons.school_rounded,
-                            'Cours complets',
-                            'Accédez à tous vos cours et supports pédagogiques',
-                          ),
-                          const SizedBox(height: 16),
-
-                          _buildFeatureItem(
-                            context,
-                            Icons.assignment_rounded,
-                            'Exercices pratiques',
-                            'Entraînez-vous avec des exercices corrigés',
-                          ),
-                          const SizedBox(height: 16),
-
-                          _buildFeatureItem(
-                            context,
-                            Icons.analytics_rounded,
-                            'Suivi de progression',
-                            'Visualisez votre évolution et vos résultats',
-                          ),
-                          const SizedBox(height: 16),
-
-                          _buildFeatureItem(
-                            context,
-                            Icons.group_rounded,
-                            'Communauté étudiante',
-                            'Échangez avec vos camarades de promotion',
-                          ),
-                        ],
+                      // Fonctionnalités
+                      _buildFeatureItem(
+                        context,
+                        Icons.school_rounded,
+                        'Cours complets',
+                        'Accédez à tous vos cours et supports pédagogiques',
+                        delay: 800.ms,
                       ),
-                    )
-                    .animate()
-                    .fadeIn(delay: 800.ms, duration: 1000.ms)
-                    .slideY(begin: 0.5, curve: Curves.easeOutCubic),
+                      const SizedBox(height: 16),
+
+                      _buildFeatureItem(
+                        context,
+                        Icons.assignment_rounded,
+                        'Exercices pratiques',
+                        'Entraînez-vous avec des exercices corrigés',
+                        delay: 900.ms,
+                      ),
+                      const SizedBox(height: 16),
+
+                      _buildFeatureItem(
+                        context,
+                        Icons.analytics_rounded,
+                        'Suivi de progression',
+                        'Visualisez votre évolution et vos résultats',
+                        delay: 1000.ms,
+                      ),
+                      const SizedBox(height: 16),
+
+                      _buildFeatureItem(
+                        context,
+                        Icons.group_rounded,
+                        'Communauté étudiante',
+                        'Échangez avec vos camarades de promotion',
+                        delay: 1100.ms,
+                      ),
+                    ],
+                  ),
+                ),
 
                 const SizedBox(height: 30),
 
                 // Footer
                 Text(
-                  'Rejoignez plus de 1 000 étudiants déjà inscrits',
+                  'Rejoignez des milliers d’étudiants et boostez votre réussite !',
                   style: textTheme.bodyMedium?.copyWith(
                     color: Colors.white.withValues(alpha: 0.7),
                     fontStyle: FontStyle.italic,
+                    fontSize: 16,
                   ),
-                ).animate().fadeIn(delay: 1000.ms, duration: 600.ms),
+                ).animate().fadeIn(delay: 1200.ms, duration: 600.ms),
               ],
             ),
           ),
@@ -306,8 +319,9 @@ class WelcomePage extends StatelessWidget {
     BuildContext context,
     IconData icon,
     String title,
-    String description,
-  ) {
+    String description, {
+    Duration delay = Duration.zero,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -317,6 +331,13 @@ class WelcomePage extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Icon(icon, color: Colors.white, size: 24),
         ),
@@ -328,21 +349,21 @@ class WelcomePage extends StatelessWidget {
               Text(
                 title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
               const SizedBox(height: 4),
               Text(
                 description,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.8),
-                ),
+                      color: Colors.white.withValues(alpha: 0.8),
+                    ),
               ),
             ],
           ),
         ),
       ],
-    );
+    ).animate().fadeIn(delay: delay, duration: 600.ms).slideX(begin: 0.2, curve: Curves.easeOutCubic);
   }
 }

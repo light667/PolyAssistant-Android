@@ -1,96 +1,113 @@
 import os
 import json
-import shutil
 import unicodedata
+import re
 
-def sanitize_name(name):
-    """Nettoie les noms pour Flutter"""
+def simple_sanitize(name):
+    """Version ultra-simple et fiable de sanitize"""
+    if not name:
+        return "unknown"
+    
+    # Convertir en minuscules
+    name = name.lower()
+    
+    # Remplacer les espaces par underscores
+    name = name.replace(' ', '_')
+    
+    # Remplacer les caractères accentués
     name = unicodedata.normalize('NFKD', name).encode('ASCII', 'ignore').decode('ASCII')
-    name = name.replace(' ', '_').replace('/', '_').replace('\\', '_')
-    name = ''.join(c for c in name if c.isalnum() or c in ['_', '-', '.'])
-    return name.lower()
+    
+    # Garder seulement les caractères autorisés
+    name = re.sub(r'[^a-z0-9_\.]', '', name)
+    
+    # Nettoyer les underscores multiples
+    name = re.sub(r'_+', '_', name)
+    name = name.strip('_')
+    
+    return name if name else "unknown"
 
-def fix_all_names(manifest_path, resources_path='assets/resources'):
-    """Solution ultime : corrige tout sur place en une passe"""
+def quick_fix_structure(resources_path):
+    """Correction rapide et fiable"""
+    print("🔧 Correction rapide de la structure...")
     
-    # Sauvegarde
-    if os.path.exists(resources_path + '_backup'):
-        shutil.rmtree(resources_path + '_backup')
-    shutil.copytree(resources_path, resources_path + '_backup')
-    
-    # Charger le manifest
-    with open(manifest_path, 'r', encoding='utf-8') as f:
-        manifest = json.load(f)
-    
-    new_manifest = {"filieres": []}
-    
-    for filiere in manifest['filieres']:
-        old_filiere_name = filiere['name']
-        new_filiere_name = sanitize_name(old_filiere_name)
-        
-        # Renommer filière
-        old_path = os.path.join(resources_path, old_filiere_name)
-        new_path = os.path.join(resources_path, new_filiere_name)
-        if os.path.exists(old_path) and old_filiere_name != new_filiere_name:
-            os.rename(old_path, new_path)
-        
-        new_filiere = {"name": new_filiere_name, "semestres": []}
-        
-        for semestre in filiere['semestres']:
-            old_semestre_name = semestre['name']
-            new_semestre_name = sanitize_name(old_semestre_name)
-            
-            # Renommer semestre
-            old_path = os.path.join(new_path, old_semestre_name)
-            new_path_semestre = os.path.join(new_path, new_semestre_name)
-            if os.path.exists(old_path) and old_semestre_name != new_semestre_name:
-                os.rename(old_path, new_path_semestre)
-            
-            new_semestre = {"name": new_semestre_name, "matieres": []}
-            
-            for matiere in semestre['matieres']:
-                old_matiere_name = matiere['name']
-                new_matiere_name = sanitize_name(old_matiere_name)
+    for root, dirs, files in os.walk(resources_path, topdown=False):
+        # Renommer les fichiers
+        for file in files:
+            if file.endswith('.pdf'):
+                old_path = os.path.join(root, file)
+                new_name = simple_sanitize(file)
+                new_path = os.path.join(root, new_name)
                 
-                # Renommer matière
-                old_path = os.path.join(new_path_semestre, old_matiere_name)
-                new_path_matiere = os.path.join(new_path_semestre, new_matiere_name)
-                if os.path.exists(old_path) and old_matiere_name != new_matiere_name:
-                    os.rename(old_path, new_path_matiere)
-                
-                new_matiere = {
-                    "name": new_matiere_name,
-                    "folder": f"assets/resources/{new_filiere_name}/{new_semestre_name}/{new_matiere_name}",
-                    "pdfs": []
-                }
-                
-                # Renommer PDFs
-                if os.path.exists(new_path_matiere):
-                    for pdf in os.listdir(new_path_matiere):
-                        if pdf.lower().endswith('.pdf'):
-                            old_pdf_name = pdf
-                            new_pdf_name = sanitize_name(pdf)
-                            
-                            old_pdf_path = os.path.join(new_path_matiere, old_pdf_name)
-                            new_pdf_path = os.path.join(new_path_matiere, new_pdf_name)
-                            
-                            if old_pdf_name != new_pdf_name:
-                                os.rename(old_pdf_path, new_pdf_path)
-                            
-                            new_matiere['pdfs'].append(new_pdf_name)
-                
-                new_semestre['matieres'].append(new_matiere)
-            
-            new_filiere['semestres'].append(new_semestre)
+                if old_path != new_path and os.path.exists(old_path):
+                    try:
+                        os.rename(old_path, new_path)
+                        print(f"📄 {file} → {new_name}")
+                    except:
+                        pass
         
-        new_manifest['filieres'].append(new_filiere)
-    
-    # Écraser l'ancien manifest
-    with open(manifest_path, 'w', encoding='utf-8') as f:
-        json.dump(new_manifest, f, indent=2, ensure_ascii=False)
-    
-    print("✅ Correction terminée ! Aucune modification Flutter nécessaire.")
+        # Renommer les dossiers
+        for dir_name in dirs:
+            old_path = os.path.join(root, dir_name)
+            new_name = simple_sanitize(dir_name)
+            new_path = os.path.join(root, new_name)
+            
+            if old_path != new_path and os.path.exists(old_path):
+                try:
+                    os.rename(old_path, new_path)
+                    print(f"📁 {dir_name} → {new_name}")
+                except:
+                    pass
 
-# UTILISATION ULTRA-SIMPLE
+def generate_simple_manifest(resources_path):
+    """Génération simple du manifest"""
+    manifest = {"filieres": []}
+    
+    for filiere in sorted(os.listdir(resources_path)):
+        filiere_path = os.path.join(resources_path, filiere)
+        if not os.path.isdir(filiere_path):
+            continue
+            
+        filiere_data = {"name": filiere, "semestres": []}
+        
+        for semestre in sorted(os.listdir(filiere_path)):
+            semestre_path = os.path.join(filiere_path, semestre)
+            if not os.path.isdir(semestre_path):
+                continue
+                
+            semestre_data = {"name": semestre, "matieres": []}
+            
+            for matiere in sorted(os.listdir(semestre_path)):
+                matiere_path = os.path.join(semestre_path, matiere)
+                if not os.path.isdir(matiere_path):
+                    continue
+                    
+                pdfs = [f for f in sorted(os.listdir(matiere_path)) if f.lower().endswith('.pdf')]
+                if pdfs:
+                    semestre_data["matieres"].append({
+                        "name": matiere,
+                        "folder": f"assets/resources/{filiere}/{semestre}/{matiere}",
+                        "pdfs": pdfs
+                    })
+            
+            if semestre_data["matieres"]:
+                filiere_data["semestres"].append(semestre_data)
+        
+        if filiere_data["semestres"]:
+            manifest["filieres"].append(filiere_data)
+    
+    return manifest
+
+# EXÉCUTION RAPIDE
 if __name__ == "__main__":
-    fix_all_names("assets/resources_manifest.json")
+    resources_path = "assets/resources"
+    
+    print("🚀 CORRECTION RAPIDE")
+    quick_fix_structure(resources_path)
+    
+    print("\n📋 GÉNÉRATION DU MANIFEST")
+    manifest = generate_simple_manifest(resources_path)
+    
+    with open("assets/resources_manifest.json", "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2, ensure_ascii=False)
+    
+    print("✅ TERMINÉ !")

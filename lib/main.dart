@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:polyassistant/pages/login_page.dart';
@@ -16,7 +15,6 @@ import 'package:polyassistant/providers/theme_provider.dart';
 import 'package:polyassistant/pages/notifications_page.dart';
 import 'package:polyassistant/services/notification_service.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,16 +50,11 @@ class MyApp extends StatelessWidget {
           onPrimary: Colors.white,
           onSecondary: Colors.black,
         ),
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-            ),
-            textStyle: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -88,16 +81,11 @@ class MyApp extends StatelessWidget {
           onPrimary: Colors.white,
           onSecondary: Colors.black,
         ),
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-            ),
-            textStyle: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
             ),
           ),
         ),

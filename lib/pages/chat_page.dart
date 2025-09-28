@@ -16,7 +16,7 @@ class ChatPage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Center(
           child: Text(
-            'Page Chat - Implémentez ici votre chatbot.',
+            'Indisponible pour le moment',
             style: TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),
