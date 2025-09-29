@@ -8,7 +8,7 @@
           "matieres": [
             {
               "name": "algebre_lineaire",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/algebre_lineaire",
+              "folder": "resources/lf_genie_civil/semestre_1/algebre_lineaire",
               "pdfs": [
                 "examen_math101.pdf",
                 "examen_mth101_pdf.pdf",
@@ -33,7 +33,7 @@
             },
             {
               "name": "algorithme",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/algorithme",
+              "folder": "resources/lf_genie_civil/semestre_1/algorithme",
               "pdfs": [
                 "algo_exo.pdf",
                 "algo_exo_et_exam.pdf",
@@ -63,7 +63,7 @@
             },
             {
               "name": "base_mathematique",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/base_mathematique",
+              "folder": "resources/lf_genie_civil/semestre_1/base_mathematique",
               "pdfs": [
                 "20250207notemth1120.pdf",
                 "correction_mth1120.pdf",
@@ -85,7 +85,7 @@
             },
             {
               "name": "chimie",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/chimie",
+              "folder": "resources/lf_genie_civil/semestre_1/chimie",
               "pdfs": [
                 "chimie_tp_youyouoo.pdf",
                 "cours_et_exercice_chimie_des_solution_mr_hebbar_nordine.pdf",
@@ -111,7 +111,7 @@
             },
             {
               "name": "electricite",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/electricite",
+              "folder": "resources/lf_genie_civil/semestre_1/electricite",
               "pdfs": [
                 "0syllabus_phy104.pdf",
                 "1outils_mathematiques.pdf",
@@ -141,7 +141,7 @@
             },
             {
               "name": "francais",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/francais",
+              "folder": "resources/lf_genie_civil/semestre_1/francais",
               "pdfs": [
                 "decomposer_le_texte.pdf",
                 "doc20241025wa0031.pdf",
@@ -157,7 +157,7 @@
             },
             {
               "name": "mecanique",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/mecanique",
+              "folder": "resources/lf_genie_civil/semestre_1/mecanique",
               "pdfs": [
                 "arithmetique.pdf.pdf",
                 "cdpm_sas_cinematique.pdf",
@@ -194,7 +194,7 @@
             },
             {
               "name": "mtu",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/mtu",
+              "folder": "resources/lf_genie_civil/semestre_1/mtu",
               "pdfs": [
                 "agenda_hebdomadaire.pdf",
                 "grille_agenda_hebdomadaire2.1.pdf",
@@ -203,7 +203,7 @@
             },
             {
               "name": "tp_algebre_lineaire",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/tp_algebre_lineaire",
+              "folder": "resources/lf_genie_civil/semestre_1/tp_algebre_lineaire",
               "pdfs": [
                 "algebrique.pdf",
                 "introsympy.pdf",
@@ -217,7 +217,7 @@
             },
             {
               "name": "tp_de_mecanique_du_point",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/tp_de_mecanique_du_point",
+              "folder": "resources/lf_genie_civil/semestre_1/tp_de_mecanique_du_point",
               "pdfs": [
                 "tp_gyros_plan.pdf",
                 "tp_intro_meca.pdf",
@@ -226,7 +226,7 @@
             },
             {
               "name": "tp_electricite",
-              "folder": "assets/resources/lf_genie_civil/semestre_1/tp_electricite",
+              "folder": "resources/lf_genie_civil/semestre_1/tp_electricite",
               "pdfs": [
                 "book.pdf",
                 "lissajou.pdf",
@@ -241,7 +241,7 @@
           "matieres": [
             {
               "name": "calcul_differentiel_dans_r",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/calcul_differentiel_dans_r",
+              "folder": "resources/lf_genie_civil/semestre_2/calcul_differentiel_dans_r",
               "pdfs": [
                 "calcul_binks.pdf",
                 "calcul_diff_dans_r.pdf",
@@ -257,7 +257,7 @@
             },
             {
               "name": "cours_c_contenus",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/cours_c_contenus",
+              "folder": "resources/lf_genie_civil/semestre_2/cours_c_contenus",
               "pdfs": [
                 "6la_recursivite.pdf",
                 "inf113_syllabus.pdf",
@@ -283,7 +283,7 @@
             },
             {
               "name": "cours_danglais",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/cours_danglais",
+              "folder": "resources/lf_genie_civil/semestre_2/cours_danglais",
               "pdfs": [
                 "anglais.pdf",
                 "course_handout_ang_1221.pdf",
@@ -292,7 +292,7 @@
             },
             {
               "name": "cours_de_programmation_en_python",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/cours_de_programmation_en_python",
+              "folder": "resources/lf_genie_civil/semestre_2/cours_de_programmation_en_python",
               "pdfs": [
                 "223267apprenezaprogrammerenpython1.pdf",
                 "apprendre_python3_5.pdf",
@@ -316,14 +316,14 @@
             },
             {
               "name": "cours_sur_le_langage_r",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/cours_sur_le_langage_r",
+              "folder": "resources/lf_genie_civil/semestre_2/cours_sur_le_langage_r",
               "pdfs": [
                 "null_1.pdf"
               ]
             },
             {
               "name": "dessin_technique",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/dessin_technique",
+              "folder": "resources/lf_genie_civil/semestre_2/dessin_technique",
               "pdfs": [
                 "af_dessin_technique.pdf",
                 "afio_2gem1220_syllabus_dessin_technique_dessin_de_definition0.pdf",
@@ -346,7 +346,7 @@
             },
             {
               "name": "ecrits_professionnels",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/ecrits_professionnels",
+              "folder": "resources/lf_genie_civil/semestre_2/ecrits_professionnels",
               "pdfs": [
                 "atouts_originaux_1.pdf",
                 "atouts_securisants.pdf",
@@ -366,14 +366,14 @@
             },
             {
               "name": "emploi_du_temps_s2",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/emploi_du_temps_s2",
+              "folder": "resources/lf_genie_civil/semestre_2/emploi_du_temps_s2",
               "pdfs": [
                 "lfs2_08mar2024_135225.pdf"
               ]
             },
             {
               "name": "geometrie_descriptive",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/geometrie_descriptive",
+              "folder": "resources/lf_genie_civil/semestre_2/geometrie_descriptive",
               "pdfs": [
                 "1gme1220_cours_de_geometrie_descriptivefinal.pdf",
                 "coursgeometriedescriptivenancy.pdf",
@@ -385,7 +385,7 @@
             },
             {
               "name": "mecanique_du_solide",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/mecanique_du_solide",
+              "folder": "resources/lf_genie_civil/semestre_2/mecanique_du_solide",
               "pdfs": [
                 "chap5_edo.pdf",
                 "chapitre1_meca_sol.pdf",
@@ -445,7 +445,7 @@
             },
             {
               "name": "structures_algebrique_de_base",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/structures_algebrique_de_base",
+              "folder": "resources/lf_genie_civil/semestre_2/structures_algebrique_de_base",
               "pdfs": [
                 "fiche_cours_asinsa1_fraction.pdf",
                 "fiche_cours_asinsa1_polynome.pdf",
@@ -461,7 +461,7 @@
             },
             {
               "name": "structures_et_bases_de_donnees_en_langage_c",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/structures_et_bases_de_donnees_en_langage_c",
+              "folder": "resources/lf_genie_civil/semestre_2/structures_et_bases_de_donnees_en_langage_c",
               "pdfs": [
                 "1initiation_programmation.pdf",
                 "20564initiationaulangagecetexercicescorriges.pdf",
@@ -504,7 +504,7 @@
             },
             {
               "name": "tp_de_calcul_differentiel",
-              "folder": "assets/resources/lf_genie_civil/semestre_2/tp_de_calcul_differentiel",
+              "folder": "resources/lf_genie_civil/semestre_2/tp_de_calcul_differentiel",
               "pdfs": [
                 "calcul_diff_mth1121.pdf",
                 "chapitre1matplotlib.pdf",
@@ -554,7 +554,7 @@
           "matieres": [
             {
               "name": "algebre_lineaire",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/algebre_lineaire",
+              "folder": "resources/lf_genie_electrique/semestre_1/algebre_lineaire",
               "pdfs": [
                 "examen_math101.pdf",
                 "examen_mth101_pdf.pdf",
@@ -579,7 +579,7 @@
             },
             {
               "name": "algorithme",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/algorithme",
+              "folder": "resources/lf_genie_electrique/semestre_1/algorithme",
               "pdfs": [
                 "algo_exo.pdf",
                 "algo_exo_et_exam.pdf",
@@ -609,7 +609,7 @@
             },
             {
               "name": "base_mathematique",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/base_mathematique",
+              "folder": "resources/lf_genie_electrique/semestre_1/base_mathematique",
               "pdfs": [
                 "20250207notemth1120.pdf",
                 "correction_mth1120.pdf",
@@ -631,7 +631,7 @@
             },
             {
               "name": "chimie",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/chimie",
+              "folder": "resources/lf_genie_electrique/semestre_1/chimie",
               "pdfs": [
                 "chimie_tp_youyouoo.pdf",
                 "cours_et_exercice_chimie_des_solution_mr_hebbar_nordine.pdf",
@@ -657,7 +657,7 @@
             },
             {
               "name": "electricite",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/electricite",
+              "folder": "resources/lf_genie_electrique/semestre_1/electricite",
               "pdfs": [
                 "0syllabus_phy104.pdf",
                 "1outils_mathematiques.pdf",
@@ -687,7 +687,7 @@
             },
             {
               "name": "francais",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/francais",
+              "folder": "resources/lf_genie_electrique/semestre_1/francais",
               "pdfs": [
                 "decomposer_le_texte.pdf",
                 "doc20241025wa0031.pdf",
@@ -703,7 +703,7 @@
             },
             {
               "name": "mecanique",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/mecanique",
+              "folder": "resources/lf_genie_electrique/semestre_1/mecanique",
               "pdfs": [
                 "arithmetique.pdf.pdf",
                 "cdpm_sas_cinematique.pdf",
@@ -740,7 +740,7 @@
             },
             {
               "name": "mtu",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/mtu",
+              "folder": "resources/lf_genie_electrique/semestre_1/mtu",
               "pdfs": [
                 "agenda_hebdomadaire.pdf",
                 "grille_agenda_hebdomadaire2.1.pdf",
@@ -749,7 +749,7 @@
             },
             {
               "name": "tp_algebre_lineaire",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/tp_algebre_lineaire",
+              "folder": "resources/lf_genie_electrique/semestre_1/tp_algebre_lineaire",
               "pdfs": [
                 "algebrique.pdf",
                 "introsympy.pdf",
@@ -763,7 +763,7 @@
             },
             {
               "name": "tp_de_mecanique_du_point",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/tp_de_mecanique_du_point",
+              "folder": "resources/lf_genie_electrique/semestre_1/tp_de_mecanique_du_point",
               "pdfs": [
                 "tp_gyros_plan.pdf",
                 "tp_intro_meca.pdf",
@@ -772,7 +772,7 @@
             },
             {
               "name": "tp_electricite",
-              "folder": "assets/resources/lf_genie_electrique/semestre_1/tp_electricite",
+              "folder": "resources/lf_genie_electrique/semestre_1/tp_electricite",
               "pdfs": [
                 "book.pdf",
                 "lissajou.pdf",
@@ -787,7 +787,7 @@
           "matieres": [
             {
               "name": "calcul_differentiel_dans_r",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/calcul_differentiel_dans_r",
+              "folder": "resources/lf_genie_electrique/semestre_2/calcul_differentiel_dans_r",
               "pdfs": [
                 "calcul_binks.pdf",
                 "calcul_diff_dans_r.pdf",
@@ -803,7 +803,7 @@
             },
             {
               "name": "cours_c_contenus",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/cours_c_contenus",
+              "folder": "resources/lf_genie_electrique/semestre_2/cours_c_contenus",
               "pdfs": [
                 "6la_recursivite.pdf",
                 "inf113_syllabus.pdf",
@@ -829,7 +829,7 @@
             },
             {
               "name": "cours_danglais",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/cours_danglais",
+              "folder": "resources/lf_genie_electrique/semestre_2/cours_danglais",
               "pdfs": [
                 "anglais.pdf",
                 "course_handout_ang_1221.pdf",
@@ -838,7 +838,7 @@
             },
             {
               "name": "cours_de_programmation_en_python",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/cours_de_programmation_en_python",
+              "folder": "resources/lf_genie_electrique/semestre_2/cours_de_programmation_en_python",
               "pdfs": [
                 "223267apprenezaprogrammerenpython1.pdf",
                 "apprendre_python3_5.pdf",
@@ -862,14 +862,14 @@
             },
             {
               "name": "cours_sur_le_langage_r",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/cours_sur_le_langage_r",
+              "folder": "resources/lf_genie_electrique/semestre_2/cours_sur_le_langage_r",
               "pdfs": [
                 "null_1.pdf"
               ]
             },
             {
               "name": "dessin_technique",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/dessin_technique",
+              "folder": "resources/lf_genie_electrique/semestre_2/dessin_technique",
               "pdfs": [
                 "af_dessin_technique.pdf",
                 "afio_2gem1220_syllabus_dessin_technique_dessin_de_definition0.pdf",
@@ -892,7 +892,7 @@
             },
             {
               "name": "ecrits_professionnels",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/ecrits_professionnels",
+              "folder": "resources/lf_genie_electrique/semestre_2/ecrits_professionnels",
               "pdfs": [
                 "atouts_originaux_1.pdf",
                 "atouts_securisants.pdf",
@@ -912,14 +912,14 @@
             },
             {
               "name": "emploi_du_temps_s2",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/emploi_du_temps_s2",
+              "folder": "resources/lf_genie_electrique/semestre_2/emploi_du_temps_s2",
               "pdfs": [
                 "lfs2_08mar2024_135225.pdf"
               ]
             },
             {
               "name": "geometrie_descriptive",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/geometrie_descriptive",
+              "folder": "resources/lf_genie_electrique/semestre_2/geometrie_descriptive",
               "pdfs": [
                 "1gme1220_cours_de_geometrie_descriptivefinal.pdf",
                 "coursgeometriedescriptivenancy.pdf",
@@ -931,7 +931,7 @@
             },
             {
               "name": "mecanique_du_solide",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/mecanique_du_solide",
+              "folder": "resources/lf_genie_electrique/semestre_2/mecanique_du_solide",
               "pdfs": [
                 "chap5_edo.pdf",
                 "chapitre1_meca_sol.pdf",
@@ -991,7 +991,7 @@
             },
             {
               "name": "structures_algebrique_de_base",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/structures_algebrique_de_base",
+              "folder": "resources/lf_genie_electrique/semestre_2/structures_algebrique_de_base",
               "pdfs": [
                 "fiche_cours_asinsa1_fraction.pdf",
                 "fiche_cours_asinsa1_polynome.pdf",
@@ -1007,7 +1007,7 @@
             },
             {
               "name": "structures_et_bases_de_donnees_en_langage_c",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/structures_et_bases_de_donnees_en_langage_c",
+              "folder": "resources/lf_genie_electrique/semestre_2/structures_et_bases_de_donnees_en_langage_c",
               "pdfs": [
                 "1initiation_programmation.pdf",
                 "20564initiationaulangagecetexercicescorriges.pdf",
@@ -1050,7 +1050,7 @@
             },
             {
               "name": "tp_de_calcul_differentiel",
-              "folder": "assets/resources/lf_genie_electrique/semestre_2/tp_de_calcul_differentiel",
+              "folder": "resources/lf_genie_electrique/semestre_2/tp_de_calcul_differentiel",
               "pdfs": [
                 "calcul_diff_mth1121.pdf",
                 "chapitre1matplotlib.pdf",
@@ -1100,7 +1100,7 @@
           "matieres": [
             {
               "name": "algebre_lineaire",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/algebre_lineaire",
+              "folder": "resources/lf_genie_mecanique/semestre_1/algebre_lineaire",
               "pdfs": [
                 "examen_math101.pdf",
                 "examen_mth101_pdf.pdf",
@@ -1125,7 +1125,7 @@
             },
             {
               "name": "algorithme",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/algorithme",
+              "folder": "resources/lf_genie_mecanique/semestre_1/algorithme",
               "pdfs": [
                 "algo_exo.pdf",
                 "algo_exo_et_exam.pdf",
@@ -1155,7 +1155,7 @@
             },
             {
               "name": "base_mathematique",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/base_mathematique",
+              "folder": "resources/lf_genie_mecanique/semestre_1/base_mathematique",
               "pdfs": [
                 "20250207notemth1120.pdf",
                 "correction_mth1120.pdf",
@@ -1177,7 +1177,7 @@
             },
             {
               "name": "chimie",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/chimie",
+              "folder": "resources/lf_genie_mecanique/semestre_1/chimie",
               "pdfs": [
                 "chimie_tp_youyouoo.pdf",
                 "cours_et_exercice_chimie_des_solution_mr_hebbar_nordine.pdf",
@@ -1203,7 +1203,7 @@
             },
             {
               "name": "electricite",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/electricite",
+              "folder": "resources/lf_genie_mecanique/semestre_1/electricite",
               "pdfs": [
                 "0syllabus_phy104.pdf",
                 "1outils_mathematiques.pdf",
@@ -1233,7 +1233,7 @@
             },
             {
               "name": "francais",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/francais",
+              "folder": "resources/lf_genie_mecanique/semestre_1/francais",
               "pdfs": [
                 "decomposer_le_texte.pdf",
                 "doc20241025wa0031.pdf",
@@ -1249,7 +1249,7 @@
             },
             {
               "name": "mecanique",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/mecanique",
+              "folder": "resources/lf_genie_mecanique/semestre_1/mecanique",
               "pdfs": [
                 "arithmetique.pdf.pdf",
                 "cdpm_sas_cinematique.pdf",
@@ -1286,7 +1286,7 @@
             },
             {
               "name": "mtu",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/mtu",
+              "folder": "resources/lf_genie_mecanique/semestre_1/mtu",
               "pdfs": [
                 "agenda_hebdomadaire.pdf",
                 "grille_agenda_hebdomadaire2.1.pdf",
@@ -1295,7 +1295,7 @@
             },
             {
               "name": "tp_algebre_lineaire",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/tp_algebre_lineaire",
+              "folder": "resources/lf_genie_mecanique/semestre_1/tp_algebre_lineaire",
               "pdfs": [
                 "algebrique.pdf",
                 "introsympy.pdf",
@@ -1309,7 +1309,7 @@
             },
             {
               "name": "tp_de_mecanique_du_point",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/tp_de_mecanique_du_point",
+              "folder": "resources/lf_genie_mecanique/semestre_1/tp_de_mecanique_du_point",
               "pdfs": [
                 "tp_gyros_plan.pdf",
                 "tp_intro_meca.pdf",
@@ -1318,7 +1318,7 @@
             },
             {
               "name": "tp_electricite",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_1/tp_electricite",
+              "folder": "resources/lf_genie_mecanique/semestre_1/tp_electricite",
               "pdfs": [
                 "book.pdf",
                 "lissajou.pdf",
@@ -1333,7 +1333,7 @@
           "matieres": [
             {
               "name": "calcul_differentiel_dans_r",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/calcul_differentiel_dans_r",
+              "folder": "resources/lf_genie_mecanique/semestre_2/calcul_differentiel_dans_r",
               "pdfs": [
                 "calcul_binks.pdf",
                 "calcul_diff_dans_r.pdf",
@@ -1349,7 +1349,7 @@
             },
             {
               "name": "cours_c_contenus",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/cours_c_contenus",
+              "folder": "resources/lf_genie_mecanique/semestre_2/cours_c_contenus",
               "pdfs": [
                 "6la_recursivite.pdf",
                 "inf113_syllabus.pdf",
@@ -1375,7 +1375,7 @@
             },
             {
               "name": "cours_danglais",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/cours_danglais",
+              "folder": "resources/lf_genie_mecanique/semestre_2/cours_danglais",
               "pdfs": [
                 "anglais.pdf",
                 "course_handout_ang_1221.pdf",
@@ -1384,7 +1384,7 @@
             },
             {
               "name": "cours_de_programmation_en_python",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/cours_de_programmation_en_python",
+              "folder": "resources/lf_genie_mecanique/semestre_2/cours_de_programmation_en_python",
               "pdfs": [
                 "223267apprenezaprogrammerenpython1.pdf",
                 "apprendre_python3_5.pdf",
@@ -1408,14 +1408,14 @@
             },
             {
               "name": "cours_sur_le_langage_r",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/cours_sur_le_langage_r",
+              "folder": "resources/lf_genie_mecanique/semestre_2/cours_sur_le_langage_r",
               "pdfs": [
                 "null_1.pdf"
               ]
             },
             {
               "name": "dessin_technique",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/dessin_technique",
+              "folder": "resources/lf_genie_mecanique/semestre_2/dessin_technique",
               "pdfs": [
                 "af_dessin_technique.pdf",
                 "afio_2gem1220_syllabus_dessin_technique_dessin_de_definition0.pdf",
@@ -1438,7 +1438,7 @@
             },
             {
               "name": "ecrits_professionnels",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/ecrits_professionnels",
+              "folder": "resources/lf_genie_mecanique/semestre_2/ecrits_professionnels",
               "pdfs": [
                 "atouts_originaux_1.pdf",
                 "atouts_securisants.pdf",
@@ -1458,14 +1458,14 @@
             },
             {
               "name": "emploi_du_temps_s2",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/emploi_du_temps_s2",
+              "folder": "resources/lf_genie_mecanique/semestre_2/emploi_du_temps_s2",
               "pdfs": [
                 "lfs2_08mar2024_135225.pdf"
               ]
             },
             {
               "name": "geometrie_descriptive",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/geometrie_descriptive",
+              "folder": "resources/lf_genie_mecanique/semestre_2/geometrie_descriptive",
               "pdfs": [
                 "1gme1220_cours_de_geometrie_descriptivefinal.pdf",
                 "coursgeometriedescriptivenancy.pdf",
@@ -1477,7 +1477,7 @@
             },
             {
               "name": "mecanique_du_solide",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/mecanique_du_solide",
+              "folder": "resources/lf_genie_mecanique/semestre_2/mecanique_du_solide",
               "pdfs": [
                 "chap5_edo.pdf",
                 "chapitre1_meca_sol.pdf",
@@ -1537,7 +1537,7 @@
             },
             {
               "name": "structures_algebrique_de_base",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/structures_algebrique_de_base",
+              "folder": "resources/lf_genie_mecanique/semestre_2/structures_algebrique_de_base",
               "pdfs": [
                 "fiche_cours_asinsa1_fraction.pdf",
                 "fiche_cours_asinsa1_polynome.pdf",
@@ -1553,7 +1553,7 @@
             },
             {
               "name": "structures_et_bases_de_donnees_en_langage_c",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/structures_et_bases_de_donnees_en_langage_c",
+              "folder": "resources/lf_genie_mecanique/semestre_2/structures_et_bases_de_donnees_en_langage_c",
               "pdfs": [
                 "1initiation_programmation.pdf",
                 "20564initiationaulangagecetexercicescorriges.pdf",
@@ -1596,7 +1596,7 @@
             },
             {
               "name": "tp_de_calcul_differentiel",
-              "folder": "assets/resources/lf_genie_mecanique/semestre_2/tp_de_calcul_differentiel",
+              "folder": "resources/lf_genie_mecanique/semestre_2/tp_de_calcul_differentiel",
               "pdfs": [
                 "calcul_diff_mth1121.pdf",
                 "chapitre1matplotlib.pdf",
@@ -1646,7 +1646,7 @@
           "matieres": [
             {
               "name": "algebre_lineaire",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/algebre_lineaire",
+              "folder": "resources/lf_iabigdata/semestre_1/algebre_lineaire",
               "pdfs": [
                 "examen_math101.pdf",
                 "examen_mth101_pdf.pdf",
@@ -1671,7 +1671,7 @@
             },
             {
               "name": "algorithme",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/algorithme",
+              "folder": "resources/lf_iabigdata/semestre_1/algorithme",
               "pdfs": [
                 "algo_exo.pdf",
                 "algo_exo_et_exam.pdf",
@@ -1701,7 +1701,7 @@
             },
             {
               "name": "base_mathematique",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/base_mathematique",
+              "folder": "resources/lf_iabigdata/semestre_1/base_mathematique",
               "pdfs": [
                 "20250207notemth1120.pdf",
                 "correction_mth1120.pdf",
@@ -1723,7 +1723,7 @@
             },
             {
               "name": "chimie",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/chimie",
+              "folder": "resources/lf_iabigdata/semestre_1/chimie",
               "pdfs": [
                 "chimie_tp_youyouoo.pdf",
                 "cours_et_exercice_chimie_des_solution_mr_hebbar_nordine.pdf",
@@ -1749,7 +1749,7 @@
             },
             {
               "name": "electricite",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/electricite",
+              "folder": "resources/lf_iabigdata/semestre_1/electricite",
               "pdfs": [
                 "0syllabus_phy104.pdf",
                 "1outils_mathematiques.pdf",
@@ -1779,7 +1779,7 @@
             },
             {
               "name": "francais",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/francais",
+              "folder": "resources/lf_iabigdata/semestre_1/francais",
               "pdfs": [
                 "decomposer_le_texte.pdf",
                 "doc20241025wa0031.pdf",
@@ -1795,7 +1795,7 @@
             },
             {
               "name": "mecanique",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/mecanique",
+              "folder": "resources/lf_iabigdata/semestre_1/mecanique",
               "pdfs": [
                 "arithmetique.pdf.pdf",
                 "cdpm_sas_cinematique.pdf",
@@ -1832,7 +1832,7 @@
             },
             {
               "name": "mtu",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/mtu",
+              "folder": "resources/lf_iabigdata/semestre_1/mtu",
               "pdfs": [
                 "agenda_hebdomadaire.pdf",
                 "grille_agenda_hebdomadaire2.1.pdf",
@@ -1841,7 +1841,7 @@
             },
             {
               "name": "tp_algebre_lineaire",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/tp_algebre_lineaire",
+              "folder": "resources/lf_iabigdata/semestre_1/tp_algebre_lineaire",
               "pdfs": [
                 "algebrique.pdf",
                 "introsympy.pdf",
@@ -1855,7 +1855,7 @@
             },
             {
               "name": "tp_de_mecanique_du_point",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/tp_de_mecanique_du_point",
+              "folder": "resources/lf_iabigdata/semestre_1/tp_de_mecanique_du_point",
               "pdfs": [
                 "tp_gyros_plan.pdf",
                 "tp_intro_meca.pdf",
@@ -1864,7 +1864,7 @@
             },
             {
               "name": "tp_electricite",
-              "folder": "assets/resources/lf_iabigdata/semestre_1/tp_electricite",
+              "folder": "resources/lf_iabigdata/semestre_1/tp_electricite",
               "pdfs": [
                 "book.pdf",
                 "lissajou.pdf",
@@ -1879,7 +1879,7 @@
           "matieres": [
             {
               "name": "calcul_differentiel_dans_r",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/calcul_differentiel_dans_r",
+              "folder": "resources/lf_iabigdata/semestre_2/calcul_differentiel_dans_r",
               "pdfs": [
                 "calcul_binks.pdf",
                 "calcul_diff_dans_r.pdf",
@@ -1895,7 +1895,7 @@
             },
             {
               "name": "cours_c_contenus",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/cours_c_contenus",
+              "folder": "resources/lf_iabigdata/semestre_2/cours_c_contenus",
               "pdfs": [
                 "6la_recursivite.pdf",
                 "inf113_syllabus.pdf",
@@ -1921,7 +1921,7 @@
             },
             {
               "name": "cours_danglais",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/cours_danglais",
+              "folder": "resources/lf_iabigdata/semestre_2/cours_danglais",
               "pdfs": [
                 "anglais.pdf",
                 "course_handout_ang_1221.pdf",
@@ -1930,7 +1930,7 @@
             },
             {
               "name": "cours_de_programmation_en_python",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/cours_de_programmation_en_python",
+              "folder": "resources/lf_iabigdata/semestre_2/cours_de_programmation_en_python",
               "pdfs": [
                 "223267apprenezaprogrammerenpython1.pdf",
                 "apprendre_python3_5.pdf",
@@ -1954,14 +1954,14 @@
             },
             {
               "name": "cours_sur_le_langage_r",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/cours_sur_le_langage_r",
+              "folder": "resources/lf_iabigdata/semestre_2/cours_sur_le_langage_r",
               "pdfs": [
                 "null_1.pdf"
               ]
             },
             {
               "name": "dessin_technique",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/dessin_technique",
+              "folder": "resources/lf_iabigdata/semestre_2/dessin_technique",
               "pdfs": [
                 "af_dessin_technique.pdf",
                 "afio_2gem1220_syllabus_dessin_technique_dessin_de_definition0.pdf",
@@ -1984,7 +1984,7 @@
             },
             {
               "name": "ecrits_professionnels",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/ecrits_professionnels",
+              "folder": "resources/lf_iabigdata/semestre_2/ecrits_professionnels",
               "pdfs": [
                 "atouts_originaux_1.pdf",
                 "atouts_securisants.pdf",
@@ -2004,14 +2004,14 @@
             },
             {
               "name": "emploi_du_temps_s2",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/emploi_du_temps_s2",
+              "folder": "resources/lf_iabigdata/semestre_2/emploi_du_temps_s2",
               "pdfs": [
                 "lfs2_08mar2024_135225.pdf"
               ]
             },
             {
               "name": "geometrie_descriptive",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/geometrie_descriptive",
+              "folder": "resources/lf_iabigdata/semestre_2/geometrie_descriptive",
               "pdfs": [
                 "1gme1220_cours_de_geometrie_descriptivefinal.pdf",
                 "coursgeometriedescriptivenancy.pdf",
@@ -2023,7 +2023,7 @@
             },
             {
               "name": "mecanique_du_solide",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/mecanique_du_solide",
+              "folder": "resources/lf_iabigdata/semestre_2/mecanique_du_solide",
               "pdfs": [
                 "chap5_edo.pdf",
                 "chapitre1_meca_sol.pdf",
@@ -2083,7 +2083,7 @@
             },
             {
               "name": "structures_algebrique_de_base",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/structures_algebrique_de_base",
+              "folder": "resources/lf_iabigdata/semestre_2/structures_algebrique_de_base",
               "pdfs": [
                 "fiche_cours_asinsa1_fraction.pdf",
                 "fiche_cours_asinsa1_polynome.pdf",
@@ -2099,7 +2099,7 @@
             },
             {
               "name": "structures_et_bases_de_donnees_en_langage_c",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/structures_et_bases_de_donnees_en_langage_c",
+              "folder": "resources/lf_iabigdata/semestre_2/structures_et_bases_de_donnees_en_langage_c",
               "pdfs": [
                 "1initiation_programmation.pdf",
                 "20564initiationaulangagecetexercicescorriges.pdf",
@@ -2142,7 +2142,7 @@
             },
             {
               "name": "tp_de_calcul_differentiel",
-              "folder": "assets/resources/lf_iabigdata/semestre_2/tp_de_calcul_differentiel",
+              "folder": "resources/lf_iabigdata/semestre_2/tp_de_calcul_differentiel",
               "pdfs": [
                 "calcul_diff_mth1121.pdf",
                 "chapitre1matplotlib.pdf",
@@ -2192,7 +2192,7 @@
           "matieres": [
             {
               "name": "algebre_lineaire",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/algebre_lineaire",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/algebre_lineaire",
               "pdfs": [
                 "examen_math101.pdf",
                 "examen_mth101_pdf.pdf",
@@ -2217,7 +2217,7 @@
             },
             {
               "name": "algorithme",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/algorithme",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/algorithme",
               "pdfs": [
                 "algo_exo.pdf",
                 "algo_exo_et_exam.pdf",
@@ -2247,7 +2247,7 @@
             },
             {
               "name": "base_mathematique",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/base_mathematique",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/base_mathematique",
               "pdfs": [
                 "20250207notemth1120.pdf",
                 "correction_mth1120.pdf",
@@ -2269,7 +2269,7 @@
             },
             {
               "name": "chimie",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/chimie",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/chimie",
               "pdfs": [
                 "chimie_tp_youyouoo.pdf",
                 "cours_et_exercice_chimie_des_solution_mr_hebbar_nordine.pdf",
@@ -2295,7 +2295,7 @@
             },
             {
               "name": "electricite",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/electricite",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/electricite",
               "pdfs": [
                 "0syllabus_phy104.pdf",
                 "1outils_mathematiques.pdf",
@@ -2325,7 +2325,7 @@
             },
             {
               "name": "francais",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/francais",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/francais",
               "pdfs": [
                 "decomposer_le_texte.pdf",
                 "doc20241025wa0031.pdf",
@@ -2341,7 +2341,7 @@
             },
             {
               "name": "mecanique",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/mecanique",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/mecanique",
               "pdfs": [
                 "arithmetique.pdf.pdf",
                 "cdpm_sas_cinematique.pdf",
@@ -2378,7 +2378,7 @@
             },
             {
               "name": "mtu",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/mtu",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/mtu",
               "pdfs": [
                 "agenda_hebdomadaire.pdf",
                 "grille_agenda_hebdomadaire2.1.pdf",
@@ -2387,7 +2387,7 @@
             },
             {
               "name": "tp_algebre_lineaire",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/tp_algebre_lineaire",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/tp_algebre_lineaire",
               "pdfs": [
                 "algebrique.pdf",
                 "introsympy.pdf",
@@ -2401,7 +2401,7 @@
             },
             {
               "name": "tp_de_mecanique_du_point",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/tp_de_mecanique_du_point",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/tp_de_mecanique_du_point",
               "pdfs": [
                 "tp_gyros_plan.pdf",
                 "tp_intro_meca.pdf",
@@ -2410,7 +2410,7 @@
             },
             {
               "name": "tp_electricite",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_1/tp_electricite",
+              "folder": "resources/lf_informatiquesysteme/semestre_1/tp_electricite",
               "pdfs": [
                 "book.pdf",
                 "lissajou.pdf",
@@ -2425,7 +2425,7 @@
           "matieres": [
             {
               "name": "calcul_differentiel_dans_r",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/calcul_differentiel_dans_r",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/calcul_differentiel_dans_r",
               "pdfs": [
                 "calcul_binks.pdf",
                 "calcul_diff_dans_r.pdf",
@@ -2441,7 +2441,7 @@
             },
             {
               "name": "cours_c_contenus",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/cours_c_contenus",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/cours_c_contenus",
               "pdfs": [
                 "6la_recursivite.pdf",
                 "inf113_syllabus.pdf",
@@ -2467,7 +2467,7 @@
             },
             {
               "name": "cours_danglais",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/cours_danglais",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/cours_danglais",
               "pdfs": [
                 "anglais.pdf",
                 "course_handout_ang_1221.pdf",
@@ -2476,7 +2476,7 @@
             },
             {
               "name": "cours_de_programmation_en_python",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/cours_de_programmation_en_python",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/cours_de_programmation_en_python",
               "pdfs": [
                 "223267apprenezaprogrammerenpython1.pdf",
                 "apprendre_python3_5.pdf",
@@ -2500,14 +2500,14 @@
             },
             {
               "name": "cours_sur_le_langage_r",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/cours_sur_le_langage_r",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/cours_sur_le_langage_r",
               "pdfs": [
                 "null_1.pdf"
               ]
             },
             {
               "name": "dessin_technique",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/dessin_technique",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/dessin_technique",
               "pdfs": [
                 "af_dessin_technique.pdf",
                 "afio_2gem1220_syllabus_dessin_technique_dessin_de_definition0.pdf",
@@ -2530,7 +2530,7 @@
             },
             {
               "name": "ecrits_professionnels",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/ecrits_professionnels",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/ecrits_professionnels",
               "pdfs": [
                 "atouts_originaux_1.pdf",
                 "atouts_securisants.pdf",
@@ -2550,14 +2550,14 @@
             },
             {
               "name": "emploi_du_temps_s2",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/emploi_du_temps_s2",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/emploi_du_temps_s2",
               "pdfs": [
                 "lfs2_08mar2024_135225.pdf"
               ]
             },
             {
               "name": "geometrie_descriptive",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/geometrie_descriptive",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/geometrie_descriptive",
               "pdfs": [
                 "1gme1220_cours_de_geometrie_descriptivefinal.pdf",
                 "coursgeometriedescriptivenancy.pdf",
@@ -2569,7 +2569,7 @@
             },
             {
               "name": "mecanique_du_solide",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/mecanique_du_solide",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/mecanique_du_solide",
               "pdfs": [
                 "chap5_edo.pdf",
                 "chapitre1_meca_sol.pdf",
@@ -2629,7 +2629,7 @@
             },
             {
               "name": "structures_algebrique_de_base",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/structures_algebrique_de_base",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/structures_algebrique_de_base",
               "pdfs": [
                 "fiche_cours_asinsa1_fraction.pdf",
                 "fiche_cours_asinsa1_polynome.pdf",
@@ -2645,7 +2645,7 @@
             },
             {
               "name": "structures_et_bases_de_donnees_en_langage_c",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/structures_et_bases_de_donnees_en_langage_c",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/structures_et_bases_de_donnees_en_langage_c",
               "pdfs": [
                 "1initiation_programmation.pdf",
                 "20564initiationaulangagecetexercicescorriges.pdf",
@@ -2688,7 +2688,7 @@
             },
             {
               "name": "tp_de_calcul_differentiel",
-              "folder": "assets/resources/lf_informatiquesysteme/semestre_2/tp_de_calcul_differentiel",
+              "folder": "resources/lf_informatiquesysteme/semestre_2/tp_de_calcul_differentiel",
               "pdfs": [
                 "calcul_diff_mth1121.pdf",
                 "chapitre1matplotlib.pdf",
@@ -2738,7 +2738,7 @@
           "matieres": [
             {
               "name": "algebre_lineaire",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/algebre_lineaire",
+              "folder": "resources/lf_logistiquetransport/semestre_1/algebre_lineaire",
               "pdfs": [
                 "examen_math101.pdf",
                 "examen_mth101_pdf.pdf",
@@ -2763,7 +2763,7 @@
             },
             {
               "name": "algorithme",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/algorithme",
+              "folder": "resources/lf_logistiquetransport/semestre_1/algorithme",
               "pdfs": [
                 "algo_exo.pdf",
                 "algo_exo_et_exam.pdf",
@@ -2793,7 +2793,7 @@
             },
             {
               "name": "base_mathematique",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/base_mathematique",
+              "folder": "resources/lf_logistiquetransport/semestre_1/base_mathematique",
               "pdfs": [
                 "20250207notemth1120.pdf",
                 "correction_mth1120.pdf",
@@ -2815,7 +2815,7 @@
             },
             {
               "name": "chimie",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/chimie",
+              "folder": "resources/lf_logistiquetransport/semestre_1/chimie",
               "pdfs": [
                 "chimie_tp_youyouoo.pdf",
                 "cours_et_exercice_chimie_des_solution_mr_hebbar_nordine.pdf",
@@ -2841,7 +2841,7 @@
             },
             {
               "name": "electricite",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/electricite",
+              "folder": "resources/lf_logistiquetransport/semestre_1/electricite",
               "pdfs": [
                 "0syllabus_phy104.pdf",
                 "1outils_mathematiques.pdf",
@@ -2871,7 +2871,7 @@
             },
             {
               "name": "francais",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/francais",
+              "folder": "resources/lf_logistiquetransport/semestre_1/francais",
               "pdfs": [
                 "decomposer_le_texte.pdf",
                 "doc20241025wa0031.pdf",
@@ -2887,7 +2887,7 @@
             },
             {
               "name": "mecanique",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/mecanique",
+              "folder": "resources/lf_logistiquetransport/semestre_1/mecanique",
               "pdfs": [
                 "arithmetique.pdf.pdf",
                 "cdpm_sas_cinematique.pdf",
@@ -2924,7 +2924,7 @@
             },
             {
               "name": "mtu",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/mtu",
+              "folder": "resources/lf_logistiquetransport/semestre_1/mtu",
               "pdfs": [
                 "agenda_hebdomadaire.pdf",
                 "grille_agenda_hebdomadaire2.1.pdf",
@@ -2933,7 +2933,7 @@
             },
             {
               "name": "tp_algebre_lineaire",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/tp_algebre_lineaire",
+              "folder": "resources/lf_logistiquetransport/semestre_1/tp_algebre_lineaire",
               "pdfs": [
                 "algebrique.pdf",
                 "introsympy.pdf",
@@ -2947,7 +2947,7 @@
             },
             {
               "name": "tp_de_mecanique_du_point",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/tp_de_mecanique_du_point",
+              "folder": "resources/lf_logistiquetransport/semestre_1/tp_de_mecanique_du_point",
               "pdfs": [
                 "tp_gyros_plan.pdf",
                 "tp_intro_meca.pdf",
@@ -2956,7 +2956,7 @@
             },
             {
               "name": "tp_electricite",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_1/tp_electricite",
+              "folder": "resources/lf_logistiquetransport/semestre_1/tp_electricite",
               "pdfs": [
                 "book.pdf",
                 "lissajou.pdf",
@@ -2971,7 +2971,7 @@
           "matieres": [
             {
               "name": "calcul_differentiel_dans_r",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/calcul_differentiel_dans_r",
+              "folder": "resources/lf_logistiquetransport/semestre_2/calcul_differentiel_dans_r",
               "pdfs": [
                 "calcul_binks.pdf",
                 "calcul_diff_dans_r.pdf",
@@ -2987,7 +2987,7 @@
             },
             {
               "name": "cours_c_contenus",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/cours_c_contenus",
+              "folder": "resources/lf_logistiquetransport/semestre_2/cours_c_contenus",
               "pdfs": [
                 "6la_recursivite.pdf",
                 "inf113_syllabus.pdf",
@@ -3013,7 +3013,7 @@
             },
             {
               "name": "cours_danglais",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/cours_danglais",
+              "folder": "resources/lf_logistiquetransport/semestre_2/cours_danglais",
               "pdfs": [
                 "anglais.pdf",
                 "course_handout_ang_1221.pdf",
@@ -3022,7 +3022,7 @@
             },
             {
               "name": "cours_de_programmation_en_python",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/cours_de_programmation_en_python",
+              "folder": "resources/lf_logistiquetransport/semestre_2/cours_de_programmation_en_python",
               "pdfs": [
                 "223267apprenezaprogrammerenpython1.pdf",
                 "apprendre_python3_5.pdf",
@@ -3046,14 +3046,14 @@
             },
             {
               "name": "cours_sur_le_langage_r",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/cours_sur_le_langage_r",
+              "folder": "resources/lf_logistiquetransport/semestre_2/cours_sur_le_langage_r",
               "pdfs": [
                 "null_1.pdf"
               ]
             },
             {
               "name": "dessin_technique",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/dessin_technique",
+              "folder": "resources/lf_logistiquetransport/semestre_2/dessin_technique",
               "pdfs": [
                 "af_dessin_technique.pdf",
                 "afio_2gem1220_syllabus_dessin_technique_dessin_de_definition0.pdf",
@@ -3076,7 +3076,7 @@
             },
             {
               "name": "ecrits_professionnels",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/ecrits_professionnels",
+              "folder": "resources/lf_logistiquetransport/semestre_2/ecrits_professionnels",
               "pdfs": [
                 "atouts_originaux_1.pdf",
                 "atouts_securisants.pdf",
@@ -3096,14 +3096,14 @@
             },
             {
               "name": "emploi_du_temps_s2",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/emploi_du_temps_s2",
+              "folder": "resources/lf_logistiquetransport/semestre_2/emploi_du_temps_s2",
               "pdfs": [
                 "lfs2_08mar2024_135225.pdf"
               ]
             },
             {
               "name": "geometrie_descriptive",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/geometrie_descriptive",
+              "folder": "resources/lf_logistiquetransport/semestre_2/geometrie_descriptive",
               "pdfs": [
                 "1gme1220_cours_de_geometrie_descriptivefinal.pdf",
                 "coursgeometriedescriptivenancy.pdf",
@@ -3115,7 +3115,7 @@
             },
             {
               "name": "mecanique_du_solide",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/mecanique_du_solide",
+              "folder": "resources/lf_logistiquetransport/semestre_2/mecanique_du_solide",
               "pdfs": [
                 "chap5_edo.pdf",
                 "chapitre1_meca_sol.pdf",
@@ -3175,7 +3175,7 @@
             },
             {
               "name": "structures_algebrique_de_base",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/structures_algebrique_de_base",
+              "folder": "resources/lf_logistiquetransport/semestre_2/structures_algebrique_de_base",
               "pdfs": [
                 "fiche_cours_asinsa1_fraction.pdf",
                 "fiche_cours_asinsa1_polynome.pdf",
@@ -3191,7 +3191,7 @@
             },
             {
               "name": "structures_et_bases_de_donnees_en_langage_c",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/structures_et_bases_de_donnees_en_langage_c",
+              "folder": "resources/lf_logistiquetransport/semestre_2/structures_et_bases_de_donnees_en_langage_c",
               "pdfs": [
                 "1initiation_programmation.pdf",
                 "20564initiationaulangagecetexercicescorriges.pdf",
@@ -3234,7 +3234,7 @@
             },
             {
               "name": "tp_de_calcul_differentiel",
-              "folder": "assets/resources/lf_logistiquetransport/semestre_2/tp_de_calcul_differentiel",
+              "folder": "resources/lf_logistiquetransport/semestre_2/tp_de_calcul_differentiel",
               "pdfs": [
                 "calcul_diff_mth1121.pdf",
                 "chapitre1matplotlib.pdf",
