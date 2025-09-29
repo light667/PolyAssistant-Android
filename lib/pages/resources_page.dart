@@ -1,16 +1,9 @@
-// resources_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'dart:convert';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:open_file/open_file.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:html' as html;
-import 'package:http/http.dart' as http;
-import 'dart:typed_data';
+import 'dart:convert';
 
 class ResourcesPage extends StatefulWidget {
   const ResourcesPage({super.key, required this.title});
@@ -25,7 +18,6 @@ class _ResourcesPageState extends State<ResourcesPage> {
   String _selectedFiliere = '';
   String _selectedSemester = '';
   bool _isLoading = true;
-  bool _useOnlineSources = true; // Mode GitHub par défaut
 
   final Color _primaryColor = const Color(0xFF1E3A8A);
   final Color _secondaryColor = const Color(0xFF3B82F6);
@@ -39,8 +31,9 @@ class _ResourcesPageState extends State<ResourcesPage> {
 
   Future<void> _loadManifest() async {
     try {
-      final manifestString = await DefaultAssetBundle.of(context)
-          .loadString('assets/resources_manifest_github.json');
+      final manifestString = await DefaultAssetBundle.of(
+        context,
+      ).loadString('assets/resources_manifest_online.json');
       final manifestJson = jsonDecode(manifestString);
 
       if (mounted) {
@@ -93,7 +86,8 @@ class _ResourcesPageState extends State<ResourcesPage> {
         .replaceAll('Informatique', 'Informatique')
         .replaceAll('Civil', 'Civil')
         .replaceAll('Logistique', 'Logistique')
-        .replaceAll('Transport', 'Transport');
+        .replaceAll('Transport', 'Transport')
+        .replaceAll('Logistiquetransport', 'Logistique et Transport');
 
     return formatted;
   }
@@ -136,19 +130,6 @@ class _ResourcesPageState extends State<ResourcesPage> {
       debugPrint('Erreur lors de la récupération des matières: $e');
       return [];
     }
-  }
-
-  // Nouvelle méthode pour récupérer les PDFs selon le format
-  List<dynamic> _getPdfsForMatiere(Map<String, dynamic> matiere) {
-    final pdfs = matiere['pdfs'] ?? [];
-    
-    // Si c'est le nouveau format (avec URLs), retourner tel quel
-    if (pdfs.isNotEmpty && pdfs.first is Map) {
-      return pdfs;
-    }
-    
-    // Sinon, convertir l'ancien format
-    return pdfs.map((name) => {'name': name, 'url': ''}).toList();
   }
 
   Widget _buildFiliereCard(String filiereName, bool isSelected) {
@@ -269,8 +250,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
   }
 
   Widget _buildMatiereCardHorizontal(Map<String, dynamic> matiere, int index) {
-    final pdfs = _getPdfsForMatiere(matiere);
-    final pdfCount = pdfs.length;
+    final pdfCount = matiere['pdfs']?.length ?? 0;
 
     return AnimatedContainer(
       duration: 300.ms,
@@ -303,9 +283,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
                   filiere: _selectedFiliere,
                   semestre: _selectedSemester,
                   matiere: matiere['name'],
-                  folder: matiere['folder'],
-                  pdfs: pdfs,
-                  useOnlineSources: _useOnlineSources,
+                  pdfs: matiere['pdfs'],
                 ),
               ),
             );
@@ -377,45 +355,146 @@ class _ResourcesPageState extends State<ResourcesPage> {
     );
   }
 
-  Widget _buildOnlineSwitch() {
-    return Card(
-      margin: const EdgeInsets.all(16),
-      elevation: 2,
-      child: SwitchListTile(
-        title: Text(
-          _useOnlineSources ? '🌐 Mode GitHub' : '💾 Mode Local',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: _useOnlineSources ? Colors.green : Colors.blue,
+  // Méthode améliorée pour gérer les PDFs depuis GitHub
+  Future<void> _handlePdfAction(
+    BuildContext context,
+    Map<String, dynamic> pdfData,
+    bool isDownload,
+  ) async {
+    try {
+      final pdfName = pdfData['name'];
+      final pdfUrl = pdfData['url'] ?? '';
+
+      if (pdfUrl.isEmpty) {
+        throw Exception('URL GitHub non disponible pour ce fichier');
+      }
+
+      // Vérifier si l'URL contient le bon chemin
+      if (!pdfUrl.contains('/assets/')) {
+        debugPrint('⚠️ URL suspecte - peut-être manque assets/: $pdfUrl');
+      }
+
+      // Afficher un indicateur de chargement
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          content: Center(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.blue[700]!),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    isDownload
+                        ? 'Préparation du téléchargement...'
+                        : 'Ouverture...',
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Connexion à GitHub...',
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    pdfName,
+                    style: TextStyle(fontSize: 10, color: Colors.grey.shade500),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
-        subtitle: Text(
-          _useOnlineSources 
-            ? 'Chargement depuis GitHub' 
-            : 'Chargement depuis les assets',
-        ),
-        value: _useOnlineSources,
-        onChanged: (value) {
-          setState(() {
-            _useOnlineSources = value;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                value 
-                  ? 'Mode GitHub activé - Chargement depuis Internet'
-                  : 'Mode Local activé - Chargement depuis les assets',
-              ),
-              backgroundColor: value ? Colors.green : Colors.blue,
+      );
+
+      // SOLUTION POUR LE WEB : ouvrir directement l'URL GitHub
+      if (isDownload) {
+        // Téléchargement : forcer le téléchargement
+        final anchor = html.AnchorElement(href: pdfUrl)
+          ..setAttribute('download', pdfName)
+          ..click();
+      } else {
+        // Visualisation : ouvrir dans un nouvel onglet
+        html.window.open(pdfUrl, pdfName);
+      }
+
+      // Fermer le dialogue après un court délai
+      await Future.delayed(const Duration(milliseconds: 1000));
+      if (context.mounted) {
+        Navigator.of(context).pop();
+
+        // Afficher un message de succès
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  isDownload
+                      ? '📥 Téléchargement lancé'
+                      : '📖 Ouverture du PDF',
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  pdfName,
+                  style: const TextStyle(fontSize: 12),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-          );
-        },
-        secondary: Icon(
-          _useOnlineSources ? Icons.cloud : Icons.storage,
-          color: _useOnlineSources ? Colors.green : Colors.blue,
-        ),
-      ),
-    );
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.of(context).pop();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('❌ Erreur: ${e.toString()}'),
+                const SizedBox(height: 4),
+                Text('Fichier: ${pdfData['name']}'),
+                const SizedBox(height: 4),
+                Text(
+                  'Vérifiez que le fichier existe sur GitHub',
+                  style: const TextStyle(fontSize: 12),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'URL: ${pdfData['url']}',
+                  style: const TextStyle(fontSize: 10),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 8),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -498,8 +577,50 @@ class _ResourcesPageState extends State<ResourcesPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Switch Online/Offline
-          _buildOnlineSwitch(),
+          // Bannière GitHub
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.green.shade50, Colors.blue.shade50],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.green.shade200),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.cloud_done, color: Colors.green, size: 24),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '📡 Ressources en ligne',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.green.shade800,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Tous les PDFs sont chargés depuis GitHub',
+                        style: TextStyle(
+                          color: Colors.green.shade600,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
 
           // Section des filières
           Padding(
@@ -708,29 +829,20 @@ class _ResourcesPageState extends State<ResourcesPage> {
   }
 }
 
-class UniteDetailPage extends StatefulWidget {
+class UniteDetailPage extends StatelessWidget {
   final String filiere;
   final String semestre;
   final String matiere;
-  final String folder;
   final List<dynamic> pdfs;
-  final bool useOnlineSources;
 
   const UniteDetailPage({
     super.key,
     required this.filiere,
     required this.semestre,
     required this.matiere,
-    required this.folder,
     required this.pdfs,
-    required this.useOnlineSources,
   });
 
-  @override
-  State<UniteDetailPage> createState() => _UniteDetailPageState();
-}
-
-class _UniteDetailPageState extends State<UniteDetailPage> {
   String _formatDisplayName(String name) {
     if (name.isEmpty) return name;
 
@@ -750,221 +862,10 @@ class _UniteDetailPageState extends State<UniteDetailPage> {
         .replaceAll('Bigdata', 'Big Data')
         .replaceAll('Genie', 'Génie')
         .replaceAll('Mecanique', 'Mécanique')
+        .replaceAll('Logistiquetransport', 'Logistique et Transport')
         .replaceAll('Electrique', 'Électrique');
 
     return formatted;
-  }
-
-  // Méthode pour charger depuis une URL GitHub
-  Future<Uint8List> _loadPdfFromUrl(String url) async {
-    try {
-      debugPrint('🌐 Chargement depuis GitHub: $url');
-      
-      final response = await http.get(Uri.parse(url));
-      
-      if (response.statusCode == 200) {
-        return response.bodyBytes;
-      } else {
-        throw Exception('Erreur HTTP ${response.statusCode}');
-      }
-    } catch (e) {
-      debugPrint('❌ Erreur chargement GitHub: $e');
-      rethrow;
-    }
-  }
-
-  // Méthode pour charger localement
-  Future<String> _loadPdfToTempFile(String assetPath, BuildContext context) async {
-    try {
-      debugPrint('💾 Chargement local: $assetPath');
-
-      if (kIsWeb) {
-        return assetPath;
-      } else {
-        final byteData = await DefaultAssetBundle.of(context).load(assetPath);
-
-        if (byteData.lengthInBytes == 0) {
-          throw Exception('Fichier vide ou introuvable: $assetPath');
-        }
-
-        final tempDir = await getTemporaryDirectory();
-        final fileName = '${DateTime.now().millisecondsSinceEpoch}.pdf';
-        final file = File('${tempDir.path}/$fileName');
-
-        await file.writeAsBytes(
-          byteData.buffer.asUint8List(
-            byteData.offsetInBytes,
-            byteData.lengthInBytes,
-          ),
-        );
-
-        if (!await file.exists()) {
-          throw Exception('Échec de la création du fichier temporaire');
-        }
-
-        debugPrint('✅ PDF chargé avec succès: ${file.path}');
-        return file.path;
-      }
-    } catch (e) {
-      debugPrint('❌ Erreur lors du chargement local du PDF: $e');
-      rethrow;
-    }
-  }
-
-  // Gestionnaire web pour GitHub
-  Future<void> _handleWebPdf(String pdfUrl, String pdfName, bool isDownload) async {
-    try {
-      if (isDownload) {
-        // Téléchargement direct
-        final anchor = html.AnchorElement(href: pdfUrl)
-          ..setAttribute('download', pdfName)
-          ..click();
-      } else {
-        // Ouverture dans un nouvel onglet
-        html.window.open(pdfUrl, pdfName);
-      }
-    } catch (e) {
-      throw Exception('Erreur web: $e');
-    }
-  }
-
-  // Méthode unifiée pour gérer les PDFs
-  Future<void> _handlePdfAction(Map<String, dynamic> pdfData, bool isDownload) async {
-    try {
-      final pdfName = pdfData['name'];
-      final pdfUrl = pdfData['url'] ?? '';
-      final localPath = '${widget.folder}/$pdfName';
-
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          content: Center(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.blue[700]!),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(widget.useOnlineSources ? 'Chargement depuis GitHub...' : 'Chargement local...'),
-                  if (widget.useOnlineSources && pdfUrl.isNotEmpty)
-                    Text(
-                      'Fichier: $pdfName',
-                      style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-
-      String filePath;
-
-      if (widget.useOnlineSources && pdfUrl.isNotEmpty) {
-        // Mode GitHub
-        if (kIsWeb) {
-          // Web: utilisation directe de l'URL
-          await _handleWebPdf(pdfUrl, pdfName, isDownload);
-          if (context.mounted) Navigator.of(context).pop();
-          return;
-        } else {
-          // Mobile: téléchargement puis ouverture
-          final bytes = await _loadPdfFromUrl(pdfUrl);
-          final tempDir = await getTemporaryDirectory();
-          final file = File('${tempDir.path}/$pdfName');
-          await file.writeAsBytes(bytes);
-          filePath = file.path;
-        }
-      } else {
-        // Mode local
-        filePath = await _loadPdfToTempFile(localPath, context);
-      }
-
-      if (context.mounted) {
-        Navigator.of(context).pop();
-      }
-
-      if (isDownload) {
-        await _downloadPdf(filePath, pdfName);
-      } else {
-        await _viewPdf(filePath, pdfName);
-      }
-
-    } catch (e) {
-      if (context.mounted) {
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Erreur: ${e.toString()}'),
-                const SizedBox(height: 4),
-                Text('Mode: ${widget.useOnlineSources ? "GitHub" : "Local"}'),
-                if (widget.useOnlineSources) ...[
-                  const SizedBox(height: 4),
-                  Text('Fichier: ${pdfData['name']}', style: const TextStyle(fontSize: 12)),
-                ],
-              ],
-            ),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 5),
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> _viewPdf(String filePath, String pdfName) async {
-    try {
-      if (context.mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PDFViewerPage(title: pdfName, filePath: filePath),
-          ),
-        );
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> _downloadPdf(String filePath, String pdfName) async {
-    try {
-      if (kIsWeb) {
-        // Déjà géré dans _handleWebPdf
-        return;
-      } else {
-        final downloadsDir = await getDownloadsDirectory();
-        final sourceFile = File(filePath);
-        final destFile = File('${downloadsDir?.path}/$pdfName');
-        await destFile.writeAsBytes(await sourceFile.readAsBytes());
-        await OpenFile.open(destFile.path);
-      }
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('PDF téléchargé avec succès!'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
-    } catch (e) {
-      rethrow;
-    }
   }
 
   @override
@@ -975,7 +876,7 @@ class _UniteDetailPageState extends State<UniteDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _formatDisplayName(widget.matiere),
+          _formatDisplayName(matiere),
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         backgroundColor: primaryColor,
@@ -1010,7 +911,7 @@ class _UniteDetailPageState extends State<UniteDetailPage> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        _formatDisplayName(widget.filiere),
+                        _formatDisplayName(filiere),
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -1031,7 +932,7 @@ class _UniteDetailPageState extends State<UniteDetailPage> {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Semestre: ${_formatDisplayName(widget.semestre)}',
+                      'Semestre: ${_formatDisplayName(semestre)}',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey.shade600,
@@ -1044,31 +945,41 @@ class _UniteDetailPageState extends State<UniteDetailPage> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
+                        color: Colors.green.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.cloud, size: 12, color: Colors.green),
+                          const SizedBox(width: 4),
+                          Text(
+                            'GitHub',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
                         color: primaryColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        '${widget.pdfs.length} PDF(s)',
+                        '${pdfs.length} PDF(s)',
                         style: TextStyle(
                           fontSize: 12,
                           color: primaryColor,
                           fontWeight: FontWeight.w500,
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Icon(
-                      widget.useOnlineSources ? Icons.cloud : Icons.storage,
-                      size: 14,
-                      color: widget.useOnlineSources ? Colors.green : Colors.blue,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      widget.useOnlineSources ? 'GitHub' : 'Local',
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: widget.useOnlineSources ? Colors.green : Colors.blue,
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -1079,7 +990,7 @@ class _UniteDetailPageState extends State<UniteDetailPage> {
 
           // Liste des PDFs
           Expanded(
-            child: widget.pdfs.isEmpty
+            child: pdfs.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -1102,96 +1013,111 @@ class _UniteDetailPageState extends State<UniteDetailPage> {
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.all(16),
-                    itemCount: widget.pdfs.length,
+                    itemCount: pdfs.length,
                     itemBuilder: (context, index) {
-                      final pdfData = widget.pdfs[index];
+                      final pdfData = pdfs[index];
                       final pdfName = pdfData['name'];
-                      final hasUrl = pdfData['url']?.isNotEmpty == true;
+                      final pdfUrl = pdfData['url'] ?? '';
 
                       return Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.only(bottom: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          leading: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: hasUrl && widget.useOnlineSources 
-                                ? Colors.green.withValues(alpha: 0.1)
-                                : Colors.red.withValues(alpha: 0.1),
-                              shape: BoxShape.circle,
+                            elevation: 2,
+                            margin: const EdgeInsets.only(bottom: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            child: FaIcon(
-                              FontAwesomeIcons.filePdf,
-                              color: hasUrl && widget.useOnlineSources 
-                                ? Colors.green 
-                                : Colors.red,
-                              size: 20,
-                            ),
-                          ),
-                          title: Text(
-                            _formatDisplayName(pdfName.replaceAll('.pdf', '')),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.useOnlineSources && hasUrl
-                                  ? '🌐 Source GitHub'
-                                  : '💾 Source locale',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: widget.useOnlineSources && hasUrl
-                                    ? Colors.green
-                                    : Colors.blue,
-                                ),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
                               ),
-                              Text(
-                                'Cliquez pour ouvrir ou télécharger',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.grey.shade600,
+                              leading: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.withValues(alpha: 0.1),
+                                  shape: BoxShape.circle,
                                 ),
-                              ),
-                            ],
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  Icons.remove_red_eye,
-                                  color: primaryColor,
+                                child: const FaIcon(
+                                  FontAwesomeIcons.filePdf,
+                                  color: Colors.green,
                                   size: 20,
                                 ),
-                                onPressed: () => _handlePdfAction(pdfData, false),
-                                tooltip: 'Voir le PDF',
                               ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.download,
-                                  color: accentColor,
-                                  size: 20,
+                              title: Text(
+                                _formatDisplayName(
+                                  pdfName.replaceAll('.pdf', ''),
                                 ),
-                                onPressed: () => _handlePdfAction(pdfData, true),
-                                tooltip: 'Télécharger',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ],
-                          ),
-                        ),
-                      ).animate(delay: (index * 100).ms).fadeIn().slideX(begin: 0.2);
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.cloud,
+                                        size: 12,
+                                        color: Colors.green,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        'Source GitHub',
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    'Cliquez pour ouvrir ou télécharger',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.remove_red_eye,
+                                      color: primaryColor,
+                                      size: 20,
+                                    ),
+                                    onPressed: () => _handlePdfAction(
+                                      context,
+                                      pdfData,
+                                      false,
+                                    ),
+                                    tooltip: 'Voir le PDF',
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.download,
+                                      color: accentColor,
+                                      size: 20,
+                                    ),
+                                    onPressed: () => _handlePdfAction(
+                                      context,
+                                      pdfData,
+                                      true,
+                                    ),
+                                    tooltip: 'Télécharger',
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .animate(delay: (index * 100).ms)
+                          .fadeIn()
+                          .slideX(begin: 0.2);
                     },
                   ),
           ),
@@ -1199,33 +1125,16 @@ class _UniteDetailPageState extends State<UniteDetailPage> {
       ),
     );
   }
-}
 
-class PDFViewerPage extends StatelessWidget {
-  final String title;
-  final String filePath;
-
-  const PDFViewerPage({super.key, required this.title, required this.filePath});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: const Color(0xFF1E3A8A),
-        foregroundColor: Colors.white,
-      ),
-      body: SfPdfViewer.file(
-        File(filePath),
-        onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Erreur de chargement: ${details.error}'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        },
-      ),
-    );
+  void _handlePdfAction(
+    BuildContext context,
+    Map<String, dynamic> pdfData,
+    bool isDownload,
+  ) {
+    final _ResourcesPageState? parentState = context
+        .findAncestorStateOfType<_ResourcesPageState>();
+    if (parentState != null) {
+      parentState._handlePdfAction(context, pdfData, isDownload);
+    }
   }
 }
