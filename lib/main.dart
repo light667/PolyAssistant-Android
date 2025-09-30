@@ -13,16 +13,10 @@ import 'package:polyassistant/pages/profile_page.dart';
 import 'package:polyassistant/pages/edit_profile_page.dart';
 import 'package:polyassistant/providers/theme_provider.dart';
 import 'package:polyassistant/pages/notifications_page.dart';
-import 'package:polyassistant/services/notification_service.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  if (!kIsWeb) {
-    await NotificationService.initialize();
-  }
-
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
