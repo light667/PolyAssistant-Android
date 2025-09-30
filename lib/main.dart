@@ -104,7 +104,7 @@ class MyApp extends StatelessWidget {
         '/redirection': (context) => const RedirectionPage(),
         '/home': (context) => const HomePage(title: 'Accueil'),
         '/chat': (context) => const ChatPage(title: 'Chat'),
-        '/resources': (context) => const ResourcesPage(title: 'Ressources'),
+        '/resources': (context) =>  ResourcesPage(),
         '/settings': (context) => const SettingsPage(title: 'Paramètres'),
         '/profile': (context) => const ProfilePage(),
         '/edit_profile': (context) => const EditProfilePage(),

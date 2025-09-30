@@ -160,6 +160,66 @@ class SettingsPage extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/welcome');
             },
           ).animate().fadeIn(duration: 1800.ms).slideY(),
+          ListTile(
+            leading: const FaIcon(
+              FontAwesomeIcons.phone,
+              color: Color(0xFF1E3A8A),
+            ),
+            title: const Text('Nous contacter'),
+            subtitle: const Text('LinkedIn et WhatsApp'),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Nous contacter'),
+                    content: const Text('Choisissez comment nous contacter :'),
+                    actions: [
+                      TextButton(
+                        onPressed: () async {
+                          final url =
+                              'https://www.linkedin.com/in/kokou-light-djossou-90216233b';
+                          if (await canLaunchUrl(Uri.parse(url))) {
+                            await launchUrl(Uri.parse(url));
+                          }
+                        },
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            FaIcon(
+                              FontAwesomeIcons.linkedin,
+                              color: Color(0xFF0077B5),
+                            ),
+                            SizedBox(width: 8),
+                            Text('LinkedIn'),
+                          ],
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          final url = 'https://wa.link/hhk3di';
+                          if (await canLaunchUrl(Uri.parse(url))) {
+                            await launchUrl(Uri.parse(url));
+                          }
+                        },
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            FaIcon(
+                              FontAwesomeIcons.whatsapp,
+                              color: Color(0xFF25D366),
+                            ),
+                            SizedBox(width: 8),
+                            Text('WhatsApp'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ).animate().fadeIn(duration: 1800.ms).slideY(),
         ],
       ),
     );

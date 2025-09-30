@@ -19,10 +19,10 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   String _pseudo = 'Utilisateur';
 
-  final List<Widget> _pages = const <Widget>[
+  final List<Widget> _pages =  <Widget>[
     HomeContent(),
     ChatPage(title: 'Chat'),
-    ResourcesPage(title: 'Ressources'),
+    ResourcesPage(),
     SettingsPage(title: 'Paramètres'),
   ];
 
@@ -106,8 +106,8 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.message),
-            label: 'Chat',
-            tooltip: 'Chat',
+            label: 'ChatBot',
+            tooltip: 'ChatBot',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.book),

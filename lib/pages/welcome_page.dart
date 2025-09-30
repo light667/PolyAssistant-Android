@@ -217,8 +217,8 @@ class WelcomePage extends StatelessWidget {
                               'Créer un compte',
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.3,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.5,
                               ),
                             ),
                           ],

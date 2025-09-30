@@ -14,9 +14,10 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="polyassistant">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <!-- Remplacement de l'icône Flutter par le logo polyassistant -->
+  <link rel="apple-touch-icon" href="icons/logo.png">
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="icons/logo.png"/>
   <link rel="manifest" href="manifest.json">
   <script src="flutter.js" defer></script>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -55,7 +56,7 @@
     // Service worker pour le caching
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('flutter_service_worker.js');
+        navigator.serviceWorker.register('flutter.js');
       });
     }
   </script>
