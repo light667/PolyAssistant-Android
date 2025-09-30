@@ -87,7 +87,12 @@ class _ResourcesPageState extends State<ResourcesPage> {
         .replaceAll('Civil', 'Civil')
         .replaceAll('Logistique', 'Logistique')
         .replaceAll('Transport', 'Transport')
-        .replaceAll('Logistiquetransport', 'Logistique et Transport');
+        .replaceAll('Logistiquetransport', 'Logistique et Transport')
+        // ✅ CORRECTION : Nouveaux formats de filières
+        .replaceAll('Iabigdata', 'IA & Big Data')
+        .replaceAll('Informatiquesysteme', 'Informatique & Système')
+        .replaceAll('Ia Big Data', 'IA & Big Data')
+        .replaceAll('Informatique Systeme', 'Informatique & Système');
 
     return formatted;
   }
@@ -355,7 +360,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
     );
   }
 
-  // Méthode améliorée pour gérer les PDFs depuis GitHub
+  // ✅ CORRECTION COMPLÈTE : Méthode simplifiée et déboguée
   Future<void> _handlePdfAction(
     BuildContext context,
     Map<String, dynamic> pdfData,
@@ -369,92 +374,76 @@ class _ResourcesPageState extends State<ResourcesPage> {
         throw Exception('URL GitHub non disponible pour ce fichier');
       }
 
-      // Vérifier si l'URL contient le bon chemin
-      if (!pdfUrl.contains('/assets/')) {
-        debugPrint('⚠️ URL suspecte - peut-être manque assets/: $pdfUrl');
+      debugPrint('📄 Action PDF: $pdfName');
+      debugPrint('🔗 URL: $pdfUrl');
+
+      // ✅ CORRECTION : Fermer d'abord tous les dialogues existants
+      if (Navigator.of(context, rootNavigator: true).canPop()) {
+        Navigator.of(context, rootNavigator: true).pop();
       }
 
-      // Afficher un indicateur de chargement
+      // Afficher un indicateur de chargement SIMPLIFIÉ
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => AlertDialog(
+        builder: (context) => const AlertDialog(
           backgroundColor: Colors.transparent,
           elevation: 0,
           content: Center(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Colors.blue[700]!),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    isDownload
-                        ? 'Préparation du téléchargement...'
-                        : 'Ouverture...',
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Connexion à GitHub...',
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    pdfName,
-                    style: TextStyle(fontSize: 10, color: Colors.grey.shade500),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
             ),
           ),
         ),
       );
 
-      // SOLUTION POUR LE WEB : ouvrir directement l'URL GitHub
-      if (isDownload) {
-        // Téléchargement : forcer le téléchargement
-        final anchor = html.AnchorElement(href: pdfUrl)
-          ..setAttribute('download', pdfName)
-          ..click();
-      } else {
-        // Visualisation : ouvrir dans un nouvel onglet
-        html.window.open(pdfUrl, pdfName);
+      // ✅ CORRECTION CRITIQUE : Attendre un cycle de build
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      // ✅ CORRECTION : Utiliser window.open pour les deux actions (plus fiable)
+      if (kIsWeb) {
+        if (isDownload) {
+          // Téléchargement avec attribut download
+          final anchor = html.AnchorElement(href: pdfUrl)
+            ..setAttribute('download', pdfName)
+            ..target = '_blank';
+          html.document.body?.append(anchor);
+          anchor.click();
+          anchor.remove();
+        } else {
+          // Visualisation dans nouvel onglet
+          html.window.open(pdfUrl, '_blank');
+        }
       }
 
-      // Fermer le dialogue après un court délai
-      await Future.delayed(const Duration(milliseconds: 1000));
+      // ✅ CORRECTION : Fermer le dialogue immédiatement après l'action
       if (context.mounted) {
-        Navigator.of(context).pop();
+        Navigator.of(context, rootNavigator: true).pop();
+      }
 
-        // Afficher un message de succès
+      // Message de succès
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  isDownload
-                      ? '📥 Téléchargement lancé'
-                      : '📖 Ouverture du PDF',
+                Row(
+                  children: [
+                    Icon(
+                      isDownload ? Icons.download : Icons.visibility,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      isDownload ? 'Téléchargement lancé' : 'PDF ouvert',
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  pdfName,
-                  style: const TextStyle(fontSize: 12),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                Text(pdfName, style: const TextStyle(fontSize: 12)),
               ],
             ),
             backgroundColor: Colors.green,
@@ -463,34 +452,20 @@ class _ResourcesPageState extends State<ResourcesPage> {
         );
       }
     } catch (e) {
-      if (context.mounted) {
-        Navigator.of(context).pop();
+      debugPrint('❌ Erreur PDF: $e');
 
+      // Fermer le dialogue en cas d'erreur
+      if (context.mounted &&
+          Navigator.of(context, rootNavigator: true).canPop()) {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('❌ Erreur: ${e.toString()}'),
-                const SizedBox(height: 4),
-                Text('Fichier: ${pdfData['name']}'),
-                const SizedBox(height: 4),
-                Text(
-                  'Vérifiez que le fichier existe sur GitHub',
-                  style: const TextStyle(fontSize: 12),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'URL: ${pdfData['url']}',
-                  style: const TextStyle(fontSize: 10),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
+            content: Text('Erreur: ${e.toString()}'),
             backgroundColor: Colors.red,
-            duration: const Duration(seconds: 8),
+            duration: const Duration(seconds: 4),
           ),
         );
       }
@@ -863,7 +838,12 @@ class UniteDetailPage extends StatelessWidget {
         .replaceAll('Genie', 'Génie')
         .replaceAll('Mecanique', 'Mécanique')
         .replaceAll('Logistiquetransport', 'Logistique et Transport')
-        .replaceAll('Electrique', 'Électrique');
+        .replaceAll('Electrique', 'Électrique')
+        // ✅ CORRECTION : Nouveaux formats de filières
+        .replaceAll('Iabigdata', 'IA & Big Data')
+        .replaceAll('Informatiquesysteme', 'Informatique & Système')
+        .replaceAll('Ia Big Data', 'IA & Big Data')
+        .replaceAll('Informatique Systeme', 'Informatique & Système');
 
     return formatted;
   }

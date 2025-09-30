@@ -50,5 +50,4 @@ flutter:
     - assets/icon/
     - assets/resources/
     - assets/resources_manifest.json
-    - assets/resources_manifest_github.json
     - assets/resources_manifest_online.json
