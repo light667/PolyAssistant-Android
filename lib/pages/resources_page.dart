@@ -254,14 +254,6 @@ class _ResourcesPageState extends State<ResourcesPage> {
             fontSize: 16,
           ),
         ),
-        trailing: Text(
-          "70%",
-          style: TextStyle(
-            color: primaryBlue,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-        ),
         onTap: () {
           if (mounted) {
             setState(() {
